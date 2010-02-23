@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>Bmorefiber Admin</title>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <style type="text/css" media="screen">
+        body {
+        	font: normal 14px auto Arial, Helvetica, sans-serif;
+        	background: #E6EAE9;
+        }
+
+        table {
+        	width: 100%;
+        	padding: 0;
+        	margin: 0;
+        }
+
+        th {
+        	border-right: 1px solid #C1DAD7;
+        	border-bottom: 1px solid #C1DAD7;
+        	border-top: 1px solid #C1DAD7;
+        	text-align: left;
+        	padding: 6px 6px 6px 12px;
+        	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+        }
+
+        th.nobg {
+        	border-top: 0;
+        	border-left: 0;
+        	border-right: 1px solid #C1DAD7;
+        	background: none;
+        }
+
+        td {
+        	border-right: 1px solid #C1DAD7;
+        	border-bottom: 1px solid #C1DAD7;
+        	background: #fff;
+        	padding: 6px 6px 6px 12px;
+        }
+
+
+        td.alt {
+        	background: #F5FAFA;
+        	color: #797268;
+        }
+
+        th.spec {
+        	border-left: 1px solid #C1DAD7;
+        	border-top: 0;
+        	background: #fff url(images/bullet1.gif) no-repeat;
+        	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        th.specalt {
+        	border-left: 1px solid #C1DAD7;
+        	border-top: 0;
+        	background: #f5fafa url(images/bullet2.gif) no-repeat;
+        	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        	color: #797268;
+        }
+        </style>
+    </head>
+    <body>
+        <p>
+            
+            <b>Jump to: </b> 
+                {% if unapproved_people %}
+                    <a href="#unapproved_people">Unapproved people</a>
+                {% endif %}
+                {% if unapproved_org %}
+                    | <a href="#unapproved_org">Unapproved Orgs</a>
+                {% endif %}
+                {% if approved_people %}
+                    | <a href="#approved_people">Approved People</a>
+                {% endif %}
+                {% if approved_org %}
+                    | <a href="#approved_org">Approved Orgs</a>
+                {% endif %}
+                
+            <span style="float:right">
+                <b>Links: </b> 
+                <a href="http://appengine.google.com/dashboard?app_id=baltimorefiber">App Engine Dashboard</a>
+                <a href="/admin/csv">Export CSV</a> | 
+                <a href="{{logout_url}}">Logout</a>
+            </span>
+        </p>
+        {% if not unapproved_people and not unapproved_org %}
+            <h1>Nothing to approve as of {% now "N d \a\t g:i a" %} GMT</h1>
+            <p>Everything must be approved, or perhaps something has gone terribly, terribly wrong.</p>
+            <hr/>
+            <br/>
+            <br/>
+        {% endif %}
+        {% if unapproved_people %}
+        <a name="unapproved_people"/>
+        <h1>Unapproved People</h1>
+        <table cellspacing="0">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>email</th>
+                <th>reason</th>
+                <th colspan="3" width="10%">Actions</th>       
+            </tr>
+            {% for row in unapproved_people %}
+            <tr>
+                <td>{{row.timestamp|date:"N d \a\t g:i a"}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.address}} <br/>({{row.geoloc}})</td>
+                <td>{{row.email}}</td>
+                <td>{{row.reason}}</td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8">
+                        <input type="hidden" name="action" value="approve"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Approve"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="hidden" name="app_id" value="baltimorefiber"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if unapproved_org %}
+        <a name="unapproved_org"/>
+        <h1>Unapproved Organizations</h1>
+        <table cellspacing="0">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>reason</th>
+                <th>website</th>
+                <th colspan="2" width="10%">Actions</th>       
+            </tr>
+            {% for row in unapproved_org %}
+            <tr>
+                <td>{{row.timestamp|date:"N d \a\t g:i a"}} GMT</td>
+                <td>{{row.name}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.reason}}</td>
+                <td><a href="{{row.website}}">{{row.website}}</a></td>
+                <td>
+                    <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="hidden" name="app_id" value="baltimorefiber"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}        
+        {% if approved_people %}
+        <a name="approved_people"/>
+        <h1>Approved People</h1>
+        <table cellspacing="0">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>email</th>
+                <th>reason</th>
+                <th colspan="3" width="10%">Actions</th>       
+            </tr>
+            {% for row in approved_people %}
+            <tr>
+                <td>{{row.timestamp|date:"N d \a\t g:i a"}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.address}} <br/>({{row.geoloc}})</td>
+                <td>{{row.email}}</td>
+                <td>{{row.reason}}</td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8">
+                        <input type="hidden" name="action" value="unapprove"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Unapprove"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="hidden" name="app_id" value="baltimorefiber"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        {% if approved_org %}
+        <a name="approved_org"/>
+        <h1>Approved Organizations</h1>
+        <table cellspacing="0">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>reason</th>
+                <th>website</th>
+                <th colspan="3" width="10%">Actions</th>       
+            </tr>
+            {% for row in approved_org %}
+            <tr>
+                <td>{{row.timestamp|date:"N d \a\t g:i a"}} GMT</td>
+                <td>{{row.name}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.reason}}</td>
+                <td><a href="{{row.website}}">{{row.website}}</a></td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8">
+                        <input type="hidden" name="action" value="unapprove"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Unapprove"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="hidden" name="app_id" value="baltimorefiber"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="/admin/" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="key" value="{{row.key}}"/>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </body>
+</html>

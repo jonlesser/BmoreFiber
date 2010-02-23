@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 
 import os, cgi, urllib
-import logging
 from random import shuffle
 from google.appengine.api import urlfetch
 from google.appengine.api import mail
+from google.appengine.api import users
 from google.appengine.api import memcache
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 import django.utils.simplejson as json
-from xml.sax.saxutils import quoteattr
 
 class Supporter(db.Model):
     name        = db.StringProperty(required=True)
@@ -107,15 +106,85 @@ class MainHandler(webapp.RequestHandler):
             website: %s
             Org: %s
             
-            http://appengine.google.com/datastore/edit?app_id=baltimorefiber&key=%s
-            """ % (name, address, email, reason, website, is_org, key)
+            http://www.bmorefiber.com/admin
+            """ % (name, address, email, reason, website, is_org)
         mail.send_mail(from_email, to_email, subject, body)
         
         self.response.out.write("Post Worked")
 
+class CsvOutput(webapp.RequestHandler):
+    def get(self):
+        rows = []
+        result = Supporter.all()
+        for row in result:
+            if row.name: row.name = row.name.replace('"','""')
+            if row.address: row.address = row.address.replace('"','""')
+            if row.reason: row.reason = row.reason.replace('"','""')
+            if row.website: row.website = row.website.replace('"','""')
+            rows.append(row)
+        
+        self.response.headers.add_header("Content-Type", "text/csv")
+        self.response.out.write(template.render('csv.html', {"rows": rows}))
+
+class Moderate(webapp.RequestHandler):
+    def get(self):
+        logout_url = users.create_logout_url("/")
+        
+        unapproved_people = []
+        result = Supporter.all().filter('is_org = ', False).filter('approved = ', False)
+        for row in result:
+            unapproved_people.append(row)
+        
+        unapproved_org = []
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', False)
+        for row in result:
+            unapproved_org.append(row)
+        
+        approved_people = []
+        result = Supporter.all().filter('is_org = ', False).filter('approved = ', True)
+        for row in result:
+            approved_people.append(row)
+            
+        approved_org = []
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
+        for row in result:
+            approved_org.append(row)
+            
+        self.response.out.write(template.render('admin.html', {
+            "unapproved_people": unapproved_people, 
+            "unapproved_org": unapproved_org,
+            "approved_people": approved_people,
+            "approved_org": approved_org,
+            "logout_url": logout_url,
+        }))
+    
+    def post(self):
+        action = cgi.escape(self.request.get('action'))
+        key = cgi.escape(self.request.get('key'))
+        if action == "approve":
+            row = db.get(key)
+            row.approved = True
+            row.put()
+            memcache.flush_all()
+        elif action == "unapprove":
+            row = db.get(key)
+            row.approved = False
+            row.put()
+            memcache.flush_all()
+        elif action == "delete":
+            row = db.get(key)
+            row.delete()
+            memcache.flush_all()
+        self.redirect("/admin/")
+
 def main():
-    urls = [ ('/', MainHandler), ]
-    util.run_wsgi_app(webapp.WSGIApplication(urls, debug=False))
+    urls = [ ('/', MainHandler), 
+             ('/admin/csv/', CsvOutput), 
+             ('/admin/csv', CsvOutput), 
+             ('/admin/', Moderate),
+             ('/admin', Moderate),
+           ]
+    util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
 
 if __name__ == '__main__':
     main()
