@@ -57,8 +57,8 @@ class MainHandler(webapp.RequestHandler):
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         
-        # Cache for 30 minutes
-        memcache.add("html", html, 1800)
+        # Cache for 60 minutes
+        memcache.add("html", html, 3600)
         
         self.response.out.write(html)
 
@@ -126,7 +126,49 @@ class CsvOutput(webapp.RequestHandler):
         self.response.headers.add_header("Content-Type", "text/csv")
         self.response.out.write(template.render('csv.html', {"rows": rows}))
 
-class Moderate(webapp.RequestHandler):
+class AdminUnapprovedOrg(webapp.RequestHandler):
+    def get(self):
+        logout_url = users.create_logout_url("/")
+
+        unapproved_org = []
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', False)
+        for row in result:
+            unapproved_org.append(row)
+        
+        self.response.out.write(template.render('admin_unapproved_org.html', {
+            "unapproved_org": unapproved_org,
+            "logout_url": logout_url,
+        }))
+
+class AdminApprovedOrg(webapp.RequestHandler):
+    def get(self):
+        logout_url = users.create_logout_url("/")
+
+        approved_org = []
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
+        for row in result:
+            approved_org.append(row)
+
+        self.response.out.write(template.render('admin_approved_org.html', {
+            "approved_org": approved_org,
+            "logout_url": logout_url,
+        }))
+        
+class AdminApprovedPeople(webapp.RequestHandler):
+    def get(self):
+        logout_url = users.create_logout_url("/")
+
+        approved_people = []
+        result = Supporter.all().filter('is_org = ', False).filter('approved = ', True)
+        for row in result:
+            approved_people.append(row)
+
+        self.response.out.write(template.render('admin_approved_people.html', {
+            "approved_people": approved_people,
+            "logout_url": logout_url,
+        }))
+
+class AdminUnapprovedPeople(webapp.RequestHandler):
     def get(self):
         logout_url = users.create_logout_url("/")
         
@@ -134,32 +176,15 @@ class Moderate(webapp.RequestHandler):
         result = Supporter.all().filter('is_org = ', False).filter('approved = ', False)
         for row in result:
             unapproved_people.append(row)
-        
-        unapproved_org = []
-        result = Supporter.all().filter('is_org = ', True).filter('approved = ', False)
-        for row in result:
-            unapproved_org.append(row)
-        
-        approved_people = []
-        result = Supporter.all().filter('is_org = ', False).filter('approved = ', True)
-        for row in result:
-            approved_people.append(row)
-            
-        approved_org = []
-        result = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
-        for row in result:
-            approved_org.append(row)
             
         self.response.out.write(template.render('admin.html', {
             "unapproved_people": unapproved_people, 
-            "unapproved_org": unapproved_org,
-            "approved_people": approved_people,
-            "approved_org": approved_org,
             "logout_url": logout_url,
         }))
     
     def post(self):
         action = cgi.escape(self.request.get('action'))
+        return_to = cgi.escape(self.request.get('return'))
         key = cgi.escape(self.request.get('key'))
         if action == "approve":
             row = db.get(key)
@@ -175,14 +200,16 @@ class Moderate(webapp.RequestHandler):
             row = db.get(key)
             row.delete()
             memcache.flush_all()
-        self.redirect("/admin/")
+        self.redirect(return_to)
 
 def main():
-    urls = [ ('/', MainHandler), 
-             ('/admin/csv/', CsvOutput), 
+    urls = [ ('/', MainHandler),  
              ('/admin/csv', CsvOutput), 
-             ('/admin/', Moderate),
-             ('/admin', Moderate),
+             ('/admin', AdminUnapprovedPeople),
+             ('/admin/', AdminUnapprovedPeople),
+             ('/admin/approvedpeople', AdminApprovedPeople),
+             ('/admin/approvedorgs', AdminApprovedOrg),
+             ('/admin/unapprovedorgs', AdminUnapprovedOrg),
            ]
     util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
 

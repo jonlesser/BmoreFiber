@@ -1,7 +1,7 @@
 {% extends "admin_base.html" %}
 {% block content %}
-    <h1>Unapproved People</h1>
-    {% if unapproved_people %}
+    <h1>Approved People</h1>
+    {% if approved_people %}
     <table cellspacing="0">
         <tr>
             <th>Date</th>
@@ -11,7 +11,7 @@
             <th>reason</th>
             <th colspan="3" width="10%">Actions</th>       
         </tr>
-        {% for row in unapproved_people %}
+        {% for row in approved_people %}
         <tr>
             <td>{{row.timestamp|date:"N d \a\t g:i a"}}</td>
             <td>{{row.name}}</td>
@@ -20,14 +20,16 @@
             <td>{{row.reason}}</td>
             <td>
                 <form action="/admin" method="post" accept-charset="utf-8">
-                    <input type="hidden" name="action" value="approve"/>
+                    <input type="hidden" name="action" value="unapprove"/>
+                    <input type="hidden" name="return" value="/admin/approvedpeople"/>
                     <input type="hidden" name="key" value="{{row.key}}"/>
-                    <input type="submit" value="Approve"/>
+                    <input type="submit" value="Unapprove"/>
                 </form>
             </td>
             <td>
                 <form action="/admin" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
                     <input type="hidden" name="action" value="delete"/>
+                    <input type="hidden" name="return" value="/admin/approvedpeople"/>
                     <input type="hidden" name="key" value="{{row.key}}"/>
                     <input type="submit" value="Delete"/>
                 </form>
@@ -43,7 +45,6 @@
         {% endfor %}
     </table>
     {% else %}
-        <p>Nothing to approve as of {% now "N d \a\t g:i a" %} GMT</p>
-        <p>Everything must be approved, or perhaps something has gone terribly, terribly wrong.</p>
+        <p>There are no approved people, or perhaps something has gone terribly, terribly wrong.</p>
     {% endif %}
 {% endblock %}

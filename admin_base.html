@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>Bmorefiber Admin</title>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <style type="text/css" media="screen">
+        body {
+        	font: normal 14px auto Arial, Helvetica, sans-serif;
+        	background-color: #E6EAE9;
+        }
+
+        table {
+        	width: 100%;
+        	padding: 0;
+        	margin: 0;
+        }
+
+        th {
+        	border-right: 1px solid #C1DAD7;
+        	border-bottom: 1px solid #C1DAD7;
+        	border-top: 1px solid #C1DAD7;
+        	text-align: left;
+        	padding: 6px 6px 6px 12px;
+        	background-color: #CAE8EA;
+        }
+
+        td {
+        	border-right: 1px solid #C1DAD7;
+        	border-bottom: 1px solid #C1DAD7;
+        	background-color: #fff;
+        	padding: 6px 6px 6px 12px;
+        }
+        </style>
+    </head>
+    <body>
+        <p>
+            <b>Navigate to: </b> 
+            <a href="/admin">Unapproved people</a> |
+            <a href="/admin/unapprovedorgs">Unapproved Orgs</a> |
+            <a href="/admin/approvedpeople">Approved People</a> |
+            <a href="/admin/approvedorgs">Approved Orgs</a>
+            <span style="float:right">
+                <b>Links: </b> 
+                <a href="http://appengine.google.com/dashboard?app_id=baltimorefiber">App Engine Dashboard</a> |
+                <a href="/admin/csv">Export CSV</a> | 
+                <a href="{{logout_url}}">Logout</a>
+            </span>
+        </p>
+        {% block content %}{% endblock %}
+    </body>
+</html>

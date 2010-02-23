@@ -1,0 +1,50 @@
+{% extends "admin_base.html" %}
+{% block content %}
+    <h1>Approved Organizations</h1>
+    {% if approved_org %}
+    <table cellspacing="0">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>email</th>
+            <th>reason</th>
+            <th>website</th>
+            <th colspan="3" width="10%">Actions</th>       
+        </tr>
+        {% for row in approved_org %}
+        <tr>
+            <td>{{row.timestamp|date:"N d \a\t g:i a"}} GMT</td>
+            <td>{{row.name}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.reason}}</td>
+            <td><a href="{{row.website}}">{{row.website}}</a></td>
+            <td>
+                <form action="/admin" method="post" accept-charset="utf-8">
+                    <input type="hidden" name="action" value="unapprove"/>
+                    <input type="hidden" name="return" value="/admin/approvedorgs"/>
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="submit" value="Unapprove"/>
+                </form>
+            </td>
+            <td>
+                <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="hidden" name="app_id" value="baltimorefiber"/>
+                    <input type="submit" value="Edit"/>
+                </form>
+            </td>
+            <td>
+                <form action="/admin" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                    <input type="hidden" name="action" value="delete"/>
+                    <input type="hidden" name="return" value="/admin/approvedorgs"/>
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>There are no approved organizations, or perhaps something has gone terribly, terribly wrong.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "admin_base.html" %}
+{% block content %}
+    <h1>Unapproved Organizations</h1>
+    {% if unapproved_org %}
+    <table cellspacing="0">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>email</th>
+            <th>reason</th>
+            <th>website</th>
+            <th colspan="2" width="10%">Actions</th>       
+        </tr>
+        {% for row in unapproved_org %}
+        <tr>
+            <td>{{row.timestamp|date:"N d \a\t g:i a"}} GMT</td>
+            <td>{{row.name}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.reason}}</td>
+            <td>
+                {% if row.website %}
+                    <a href="{{row.website}}">{{row.website}}</a>
+                {% else %}
+                    {{row.website}}
+                {% endif %}
+            </td>
+            {% if row.image %}
+            <td>
+                <form action="/admin" method="post" accept-charset="utf-8">
+                    <input type="hidden" name="action" value="approve"/>
+                    <input type="hidden" name="return" value="/admin/unapprovedorgs"/>
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="submit" value="Approve"/>
+                </form>
+            </td>
+            {% endif %}
+            <td>
+                <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="hidden" name="app_id" value="baltimorefiber"/>
+                    <input type="submit" value="Edit"/>
+                </form>
+            </td>
+            <td>
+                <form action="/admin" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
+                    <input type="hidden" name="action" value="delete"/>
+                    <input type="hidden" name="return" value="/admin/unapprovedorgs"/>
+                    <input type="hidden" name="key" value="{{row.key}}"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>Nothing to approve as of {% now "N d \a\t g:i a" %} GMT</p>
+        <p>Everything must be approved, or perhaps something has gone terribly, terribly wrong.</p>
+    {% endif %}        
+{% endblock %}
