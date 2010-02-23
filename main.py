@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os, cgi, urllib
+import logging
 from random import shuffle
 from google.appengine.api import urlfetch
 from google.appengine.api import mail
@@ -29,6 +30,9 @@ class Supporter(db.Model):
 class MainHandler(webapp.RequestHandler):
 
     def get(self):
+        if self.request.get('clearcache') == "1":
+            memcache.flush_all()
+                    
         # Check for a hit in memcache
         html_cache = memcache.get("html")
         if html_cache:
@@ -53,7 +57,9 @@ class MainHandler(webapp.RequestHandler):
         template_values = {"markers": markers, "orgs": orgs, "total_marks": len(markers) }
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
-        memcache.add("html", html, 120)
+        
+        # Cache for 30 minutes
+        memcache.add("html", html, 1800)
         
         self.response.out.write(html)
 
@@ -109,7 +115,7 @@ class MainHandler(webapp.RequestHandler):
 
 def main():
     urls = [ ('/', MainHandler), ]
-    util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
+    util.run_wsgi_app(webapp.WSGIApplication(urls, debug=False))
 
 if __name__ == '__main__':
     main()
