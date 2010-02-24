@@ -294,7 +294,7 @@
                             return;
                         }
                         if (status != google.maps.GeocoderStatus.OK) {
-                            alert("Oh Noes, Google's geocoder service is down. Try again?")
+                            alert("Oh Noes, Google's geocoder service is down. Try again?");
                             return;
                         }
                         
@@ -309,11 +309,11 @@
                             navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                             scaleControl: false,
                             keyboardShortcuts: false,
-                            scrollwheel: false,
+                            scrollwheel: false
                         });
                         var marker = new google.maps.Marker({
                             map: add_map, 
-                            position: results[0].geometry.location,
+                            position: results[0].geometry.location
                         });
                         $("#id_geolat").val(results[0].geometry.location.lat());
                         $("#id_geolng").val(results[0].geometry.location.lng());
@@ -324,20 +324,20 @@
                 });
                 $("#add_voice_form").validate({
                     rules: {
-                        name:      { required: true, },
-                        email:     { required: true, email: true, },
-                        reason:    { required: true, },
-                        address:   { required: true, },
-                        geolng:    { valid_address: true, },
-                        website:   { url: true, },
-                        video_url: { url: true, youtube: true },
-                    },
+                        name:      { required: true },
+                        email:     { required: true, email: true },
+                        reason:    { required: true },
+                        address:   { required: true },
+                        geolng:    { valid_address: true },
+                        website:   { url: true },
+                        video_url: { url: true, youtube: true }
+                    }
                 });
                 $('#add_voice_form').ajaxForm({
                     success: function(responseText){
                         $("#add_voice_dialog").dialog("close");
                         $("#success_dialog").dialog("open");
-                    },
+                    }
                 });
                 $("#add_voice_dialog").dialog({
                     title: 'Add your Voice', modal: true, resizable: false, draggable: false, autoOpen: false, 
@@ -347,8 +347,8 @@
                         "Add your Voice": function() {
                             // $('#add_voice_dialog').next().find("button").attr("disabled", "disabled").addClass("ui-state-disable");
                             $('#add_voice_form').submit();
-                        },
-                    },
+                        }
+                    }
                 });
                 $("#add_voice_button").click(function(){$('#add_voice_dialog').dialog('open')});
                 $(".add_voice_link").click(function(){$('#add_voice_dialog').dialog('open'); return false;});
@@ -370,24 +370,24 @@
                     buttons: { 
                         "Add your Organization": function() {
                             $('#add_org_form').submit(); 
-                        },
-                    },
+                        }
+                    }
                 });
                 $("#add_org_button").click(function(){$('#add_org_dialog').dialog('open')});
                 $(".add_org_link").click(function(){$('#add_org_dialog').dialog('open'); return false;});
                 $("#add_org_form").validate({
                     rules: {
-                        name:      { required: true, },
-                        email:     { required: true, email: true, },
+                        name:      { required: true },
+                        email:     { required: true, email: true },
                         reason:    {  },
-                        website:   { url: true, },
-                    },
+                        website:   { url: true }
+                    }
                 });
                 $('#add_org_form').ajaxForm({
                     success: function(responseText){
                         $("#add_org_dialog").dialog("close");
                         $("#success_dialog").dialog("open");
-                    },
+                    }
                 });
                 
                 $("#success_dialog").dialog({
@@ -400,8 +400,8 @@
                         },
                         "Nominate Baltimore!": function() {
                             window.location = "http://www.google.com/appserve/fiberrfi/public/options";
-                        },
-                    },
+                        }
+                    }
                 });
                 
                 // Setup links buttons
@@ -422,7 +422,7 @@
                     navigationControl: true,
                     navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                     scaleControl: false,
-                    scrollwheel: false,
+                    scrollwheel: false
                 });
                 
                 // Add map markers
