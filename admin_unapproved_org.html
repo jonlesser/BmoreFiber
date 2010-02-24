@@ -35,11 +35,7 @@
             </td>
             {% endif %}
             <td>
-                <form action="http://appengine.google.com/datastore/edit" method="get" accept-charset="utf-8">
-                    <input type="hidden" name="key" value="{{row.key}}"/>
-                    <input type="hidden" name="app_id" value="baltimorefiber"/>
-                    <input type="submit" value="Edit"/>
-                </form>
+                <a href="http://appengine.google.com/datastore/edit?key={{row.key}}&amp;app_id=baltimorefiber">Edit</a>
             </td>
             <td>
                 <form action="/admin" method="post" accept-charset="utf-8" onsubmit="if(!confirm('Are you sure you want to delete {{row.name}}?')){return false;}">
