@@ -70,6 +70,21 @@
                 display:inline;
                 float:none;
             }
+            
+            .press_nugget {
+                position:relative;
+                width:400px;
+            }
+            .press_nugget img{
+                width:100px;
+                float:left;
+            }
+            .press_nugget p {
+                font-style: italic;
+                font-size:16px;
+                margin-bottom:0;
+                float:left;
+            }
         </style>
         
     </head>
@@ -113,7 +128,7 @@
                 </ul>
             </div>
             <div class="span-7 last">
-                <img src="/static/fiber_house.gif"/>
+                <img src="/static/bmorefiber_logo.png"/>
             </div>
             <h1 class="span-20">{{ total_marks}} Baltimoreans for Community Fiber <button id="add_voice_button">Get on the Map</button></h1>
         </div>
@@ -182,6 +197,14 @@
                         You could be the first!
                     {% endif %}
                 </div>
+                {# <h1>Press Coverage about Community Fiber in Baltimore</h1> #}
+                {# <div id="press_coverage"> #}
+                {#     <div class="press_nugget"> #}
+                {#         <img src="/static/logos_dev/5.png"/> #}
+                {#         <p class="press_pullquote">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore"</p> #}
+                {#         <a href="#">Read more</a> #}
+                {#     </div> #}
+                {# </div> #}
                 <div id="add_org_dialog">
                     <form action="/" method="post" accept-charset="utf-8" id="add_org_form">
                         <div>

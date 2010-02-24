@@ -44,6 +44,10 @@ class MainHandler(webapp.RequestHandler):
         for supporter in supporters:
             markers.append(supporter)
         
+        total_markers = len(markers)
+        if total_markers > 200:
+            markers = markers[len(markers)-200:len(markers)]
+        
         # Fetch all of the organizations
         orgs = []
         supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
@@ -53,7 +57,7 @@ class MainHandler(webapp.RequestHandler):
         
         shuffle(orgs)
         
-        template_values = {"markers": markers, "orgs": orgs, "total_marks": len(markers) }
+        template_values = {"markers": markers, "orgs": orgs, "total_marks": total_markers }
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         
