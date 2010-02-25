@@ -55,9 +55,10 @@ class MainHandler(webapp.RequestHandler):
         for supporter in supporters:
             orgs.append(supporter)
         
+        total_orgs = len(orgs)
         shuffle(orgs)
         
-        template_values = {"markers": markers, "orgs": orgs, "total_marks": total_markers }
+        template_values = {"markers": markers, "orgs": orgs, "total_orgs":total_orgs, "total_marks": total_markers }
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         
