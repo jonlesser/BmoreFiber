@@ -37,16 +37,27 @@ class MainHandler(webapp.RequestHandler):
         if html_cache:
             self.response.out.write(html_cache)
             return
-
+        
         # Fetch all of the markers
-        markers = []
+        markers = {}
+        total_supporters = 0
         supporters = Supporter.all().filter('is_org = ', False).filter('approved = ', True)
         for supporter in supporters:
-            markers.append(supporter)
+            total_supporters += 1
+            key = "%.3f, %.3f" % (supporter.geoloc.lat, supporter.geoloc.lon)
+            if key in markers:
+                markers[key]['total'] += 1
+                markers[key]['data'].append({"name":supporter.name, "reason": supporter.reason, "date":supporter.timestamp})
+                if markers[key]['total'] > 99:
+                    markers[key]['lots'] = True
+            else:
+                markers[key] = {}
+                markers[key]['total'] = 1
+                markers[key]['data'] = [{"name":supporter.name, "reason": supporter.reason, "date":supporter.timestamp}]
+                markers[key]['lots'] = False
         
-        total_markers = len(markers)
-        if total_markers > 200:
-            markers = markers[len(markers)-200:len(markers)]
+        # if total_supporters > 200:
+        #     markers = markers[len(markers)-200:len(markers)]
         
         # Fetch all of the organizations
         orgs = []
@@ -58,7 +69,7 @@ class MainHandler(webapp.RequestHandler):
         total_orgs = len(orgs)
         shuffle(orgs)
         
-        template_values = {"markers": markers, "orgs": orgs, "total_orgs":total_orgs, "total_marks": total_markers }
+        template_values = {"markers": markers, "orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters}
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         

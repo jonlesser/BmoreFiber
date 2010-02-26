@@ -40,7 +40,8 @@
                     Baltimore residents.
                 </p>
                 <p>
-                    Google will lay groundwork to provide a true "Open Access" network by allowing 
+                    Google will lay groundwork to provide a true 
+                    <a href="http://en.wikipedia.org/wiki/Open_Access_Network">Open Access</a> network by allowing 
                     any vendor, from a small startup firm to more traditional Cable and DSL providers, 
                     access to high quality infrastructure. This will allow for choice and competition, 
                     increasing speed and reliability while lowering prices for all users.
@@ -70,7 +71,7 @@
             </div>
         </div>
         <div class="container">
-            <h1 class="span-20">{{ total_marks}} Baltimoreans Support Community Fiber <button id="add_voice_button">Add your Voice</button></h1>
+            <h1 class="span-20">{{ total_supporters }} Baltimoreans Support Community Fiber <button id="add_voice_button">Add your Voice</button></h1>
         </div>
         <div id="supporter_map"></div>
         <div class="container">
@@ -247,8 +248,7 @@
         <script src="/static/jquery.form.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="http://bmorefiberytd.appspot.com/js/ytd-embed.js"></script>
         <script type="text/javascript" charset="utf-8">
-            gmaps_api_key = "ABQIAAAAP-A6pWVxrkKHiKdNkaDuqxR8t0XXU1cjak2ItSgHcvLAuGamARRnu2MwOnAJ7dK5QGbnLcLcOwHKRQ";
-            baltimore = new google.maps.LatLng(39.29, -76.61);
+            baltimore = new google.maps.LatLng(39.31, -76.61);
             bounding = new google.maps.LatLngBounds(new google.maps.LatLng(39.2429, -76.6942), new google.maps.LatLng(39.4298, -76.4566));
             $(document).ready(function() {
                 jQuery.validator.setDefaults({ success: "valid", onkeyup: function(element){}, errorClass: "inputError"});
@@ -381,24 +381,12 @@
                     }
                 });
                 
-                // Setup links buttons
-                $("#googlegroups_button").click(function(){
-                    window.location = "http://groups.google.com/group/bmorefiber";
-                });
-                $("#twitter_button").click(function(){
-                    window.location = "http://twitter.com/bmorefiber";
-                });
-                
-                
                 // Setup supporter map
                 var map = new google.maps.Map(document.getElementById("supporter_map"), {
                     zoom: 11,
                     center: baltimore,
                     mapTypeId: google.maps.MapTypeId.TERRAIN,
                     mapTypeControl: false,
-                    navigationControl: true,
-                    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-                    scaleControl: false,
                     scrollwheel: false
                 });
                 
@@ -421,22 +409,31 @@
                 google.maps.event.addListener(map, "click", function(){
                     infoWindow.close();
                 });
-                
-                {% for marker in markers %}
+
+                {% for marker in markers.items %}
                     content = "<div class='infowindow'>";
-                    content += "<h3>{{marker.reason}}</h3>";
-                    {% if marker.website %}
-                        content += "<p>&mdash;<a href='{{marker.website}}'>{{marker.name}}</a></p>";
-                    {% else %}
-                        content += "<p>&mdash;{{marker.name}}</p>";
-                    {% endif %}
-                    {% if marker.video_embed %}content += '<p>{{marker.video_embed}}</p>';{% endif %}
+                    {% for user in marker.1.data %}
+                        content += "<h3>{{user.reason}}</h3>";
+                        content += "<p><i>{{user.name}}, {{user.date|date:"N j, Y"}}</i></p>";
+                    {% endfor %}
                     content += "</div>";
-                    
                     makeMarker({
-                        position: new google.maps.LatLng({{marker.geoloc}}),
+                        position: new google.maps.LatLng({{marker.0}}),
                         content: content,
-                        title: "{{marker.name}}"
+                        {% ifequal marker.1.total 1 %}
+                            title: "{{marker.1.total}} supporter",
+                        {% else %}
+                            title: "{{marker.1.total}} supporters",
+                        {% endifequal %}
+                        {% if marker.1.lots %}
+                            icon: "/static/images/markers/blank.png"
+                        {% else %}
+                            {% ifequal marker.1.total 1 %}
+                                icon: "/static/images/markers/marker.png"
+                            {% else %}
+                                icon: "/static/images/markers/marker{{marker.1.total}}.png"
+                            {% endifequal %}
+                        {% endif %}
                     });
                 {% endfor %}
             });

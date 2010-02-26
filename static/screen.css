@@ -309,7 +309,11 @@ label.inputError { color:red; font-weight:normal; }
 input.inputError {border: 2px solid red; background:#FBE3E4;}
 
 #add_voice_dialog, #add_org_dialog, #success_dialog {display:none;}
-.infowindow { padding-right: 40px;}
+
+.infowindow h3{
+    margin-bottom:0;
+}
+
 #add_voice_form_map{
     width:250px;
     height: 125px; 
