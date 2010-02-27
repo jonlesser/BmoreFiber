@@ -73,8 +73,8 @@ class MainHandler(webapp.RequestHandler):
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         
-        # Cache for 60 minutes
-        memcache.add("html", html, 3600)
+        # Cache for 6 hours. (approvals will clear cache)
+        memcache.add("html", html, 21600)
         
         self.response.out.write(html)
 
