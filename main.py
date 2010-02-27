@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
-import os, cgi, urllib
+# from libs.PorterStemmer import PorterStemmer
+import os, cgi, urllib, re, types, math
 from random import shuffle
 from google.appengine.api import urlfetch
 from google.appengine.api import mail
@@ -11,6 +11,11 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 import django.utils.simplejson as json
+
+class Store(db.Model):
+    name      = db.StringProperty()
+    val     = db.TextProperty()
+    timestamp = db.DateTimeProperty(auto_now=True)
 
 class Supporter(db.Model):
     name        = db.StringProperty(required=True)
