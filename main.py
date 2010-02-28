@@ -145,7 +145,7 @@ class CsvOutput(webapp.RequestHandler):
             if row.website: row.website = row.website.replace('"','""')
             rows.append(row)
         
-        self.response.headers.add_header("Content-Type", "text/csv")
+        self.response.headers['Content-Type'] = "text/csv; charset=utf-8"
         self.response.out.write(template.render('csv.html', {"rows": rows}))
 
 class AdminUnapprovedOrg(webapp.RequestHandler):
@@ -330,7 +330,7 @@ class ApiSupporters(webapp.RequestHandler):
         return data
     
     def get(self):
-        self.response.headers.add_header("Content-Type", "application/javascript")
+        self.response.headers['Content-Type'] = "application/javascript; charset=utf-8"
         
         # Set default params
         limit = 10
@@ -434,8 +434,8 @@ class ApiSupporters(webapp.RequestHandler):
         if markers:
             resp['metadata']['total_markers'] = len(marks)
         
-        # Cache for 6 hours. (approvals will clear cache)
-        memcache.add(cache_key, resp, 2)
+        # Cache for 24 hours. (approvals will clear cache)
+        memcache.add(cache_key, resp, 86400)
         
         # Respond with JSON
         if pprint:
