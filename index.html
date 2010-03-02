@@ -23,13 +23,8 @@
     <body>
         <div class="container">
             <div id="header">
-                {# <h1>Bring Community Fiber to Baltimore</h1> #}
                 <h1>Ask Google to Invest Billions in Baltimore&#146;s Future</h1>
             </div>
-            {# <div id="support_teaser"> #}
-            {#     <h2>Support Baltimore's Bid</h2> #}
-            {#     <p><a href="#get_involved">Find out how</a></p> #}
-            {# </div> #}
             <div id="letter" class="span-15">
                 <p>
                     Google is planning to build ultra-high speed 
@@ -64,6 +59,7 @@
                     <li>Become a <b><a href="http://www.facebook.com/BmoreFiber">Facebook fan</a></b></li>
                     <li>Join our <b><a href="http://groups.google.com/group/bmorefiber">Google group</a></b></li>
                     <li>Upload a <b><a id="youtube_direct_link" href="http://www.youtube.com/">YouTube video</a></b> supporting Baltimore</li>
+                    <li>Text <b>bmore</b> to <b>63218</b> to get updates on your mobile phone</li>
                 </ul>
             </div>
             <div class="span-7 last">
@@ -73,7 +69,19 @@
         <div class="container">
             <h1 class="span-20">{{ total_supporters }} Baltimoreans Support Community Fiber <button id="add_voice_button">Add your Voice</button></h1>
         </div>
-        <div id="supporter_map"></div>
+        <div id="supporter_map_wrap">
+            {# <div id="cloud"> #}
+            {#  <h3><a href="#">Keywords</a></h3> #}
+            {#  <div> #}
+            {#      <p> #}
+            {#         {% for row in words %} #}
+            {#             <button style="font-size:{{ row.size}}px">{{ row.word }}</button> #}
+            {#         {% endfor %} #}
+            {#         </p> #}
+            {#  </div> #}
+            {# </div> #}
+            <div id="supporter_map"></div>
+        </div>
         <div class="container">
             <h1>Baltimore Community Fiber Supporters on YouTube <br/><button id="youtube_direct_button">Add your Video</button></h1>
         </div>
@@ -96,7 +104,7 @@
                     {% for org in orgs %}
                         <li>
                             {% if org.website %}
-                                <a href="{{org.website}}" target="_blank">
+                                <a href="{{org.website}}">
                                     {% if org.image %}
                                         <img src="/static/logos/{{org.image}}" alt="{{org.name}}" title="{% if org.reason %} {{org.reason}} {% else %} {{org.name}} {% endif %}"/>
                                     {% endif %}
@@ -119,6 +127,54 @@
         </div>
         <div id="press_coverage">
             <ul id="press_list">
+                <li>
+                    <b>March 1, 2010</b><br/>
+                    <a href="http://www.publicbroadcasting.net/wypr/Midday.mediaplayer?STATION_NAME=wypr&amp;MEDIA_ID=888211&amp;MEDIA_EXTENSION=mp3&amp;MODULE=Midday">
+                       The Baltimore Community Fiber Movement</a><br/>
+                    Dan Rodricks, <i>Midday</i> on WYPR
+                </li>                
+                <li>
+                    <b>March 1, 2010</b><br/>
+                    <a href="http://mddailyrecord.com/maryland-business/2010/03/01/thinking-big-with-a-gig-will-cost-google/">
+                        Thinking 'big with a gig' will cost Google $$$</a><br/>
+                    Robert J. Terry, <i>The Daily Record Business Blog</i>
+                </li>
+                <li>
+                    <b>March 1, 2010</b><br/>
+                    <a href="http://www.npr.org/templates/story/story.php?storyId=124116002">
+                        U.S. Crafts Plan To Quicken Broadband Speeds</a><br/>
+                    Steve Inskeep with Mario Armstrong, <i>Morning Edition</i>
+                </li>
+                <li>
+                    <b>February 28, 2010</b><br/>
+                    <a href="http://www.thetowerlight.com/tyler-tech-internet-innovations-could-come-to-charm-city-1.2172896">
+                        Tyler Tech: Internet innovations could come to Charm City</a><br/>
+                    Tyler Waldman, <i>The Towerlight</i>
+                </li>
+                <li>
+                    <b>February 28, 2010</b><br/>
+                    <a href="http://baltimorebrew.com/blog/2010/02/28/baltimore-presses-google-to-demo-high-speed-internet-brew-qa/">
+                        Baltimore presses Google to demo high-speed Internet: Brew Q&A</a><br/>
+                    <i>Baltimore Brew</i>
+                </li>
+                <li>
+                    <b>February 26, 2010</b><br/>
+                    <a href="http://www.portfolio.com/companies-executives/2010/02/26/cities-line-up-for-Googles-broadband-rollout/">
+                        At the Speed of Google</a><br/>
+                    Editors, <i>Portfolio.com</i>
+                </li>
+                <li>
+                    <b>February 25, 2010</b><br/>
+                    <a href="http://mddailyrecord.com/maryland-business/2010/02/25/to-my-friends-at-google/">
+                        To My Friends at Google...</a><br/>
+                    Robert J. Terry, <i>The Daily Record Business Blog</i>
+                </li>
+                <li>
+                    <b>February 25, 2010 </b><br/>
+                    <a href="http://weblogs.baltimoresun.com/business/hancock/blog/2010/02/hey_google_watch_this_bring_fi.html">
+                        Hey Google: Watch this! Bring fiber to Baltimore!</a><br/>
+                    <i>Jay Hancock's Blog</i>
+                </li>
                 <li>
                     <b>February 25, 2010 </b><br/>
                     <a href="http://www.citypaper.com/digest.asp?id=19831">
@@ -192,18 +248,8 @@
                     <input id="id_email" type="text" name="email" class="title2" maxlength="255" />
                     {# <p class="helper">Never shared or displayed</p> #}
                 </div>
-            
-                {# <div> #}
-                {#     <label for="id_website">Website </label><br/> #}
-                {#     <input id="id_website" type="text" name="website" class="title2" maxlength="255" /> #}
-                {# </div> #}
-                {# <div> #}
-                {#     <label for="id_video_url">YouTube URL: </label><br/> #}
-                {#     <input id="id_video_url" type="text" name="video_url" class="title2"  maxlength="255" /> #}
-                {#     <p class="helper">Record a video testimonial an embed it here.</p> #}
-                {# </div> #}
                 <div>
-                    <input type="hidden" name="is_org" value="no" id="id_is_org"/>
+                    <input type="hidden" name="is_org" value="no"/>
                 </div>
             </form>
         </div>
@@ -226,7 +272,7 @@
                     <input id="id_org_website" type="text" name="website" maxlength="255" />
                 </div>
                 <div>
-                    <input type="hidden" name="is_org" value="yes" id="id_is_org"/>
+                    <input type="hidden" name="is_org" value="yes"/>
                 </div>
             </form>
         </div>
@@ -242,7 +288,7 @@
         <div class="container">
             <p id="footer">
                 This site is in no way affiliated with Google. We just really want Google to bring ultra-fast 
-                broadband to Baltimore. Built with <a href="http://code.google.com/appengine/" target="blank">App Engine</a>. Email addresses collected on this site will never be shared or sold. 
+                broadband to Baltimore. Built with <a href="http://code.google.com/appengine/">App Engine</a>. Email addresses collected on this site will never be shared or sold. 
                 Questions, comments, threats? <a href="mailto:jonlesser+gfiber@gmail.com">Contact Us</a>
             </p>
         </div>
@@ -252,6 +298,7 @@
         <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript" charset="utf-8"></script>
         <script src="/static/jquery.form.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="http://bmorefiberytd.appspot.com/js/ytd-embed.js"></script>
+        {# // <script src="/static/scripts.js" type="text/javascript" charset="utf-8"></script> #}
         <script type="text/javascript" charset="utf-8">
             baltimore = new google.maps.LatLng(39.31, -76.61);
             bounding = new google.maps.LatLngBounds(new google.maps.LatLng(39.2429, -76.6942), new google.maps.LatLng(39.4298, -76.4566));
@@ -279,7 +326,7 @@
                             alert("Oh Noes, Google's geocoder service is down. Try again?");
                             return;
                         }
-                        
+
                         // Make a new map with the location and append it after the field
                         $("#add_voice_form_map").show();
                         var add_map = new google.maps.Map(document.getElementById("add_voice_form_map"), {
@@ -288,7 +335,7 @@
                             mapTypeId: google.maps.MapTypeId.ROADMAP,
                             mapTypeControl: false,
                             navigationControl: true,
-                            navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+                            navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL },
                             scaleControl: false,
                             keyboardShortcuts: false,
                             scrollwheel: false
@@ -299,7 +346,7 @@
                         });
                         $("#id_geolat").val(results[0].geometry.location.lat());
                         $("#id_geolng").val(results[0].geometry.location.lng());
-                        
+
                         // Revalidate the address field to clear any errors that might be there
                         $("#add_voice_form").validate().element("#id_geolng");
                     });
@@ -334,7 +381,7 @@
                 });
                 $("#add_voice_button").click(function(){$('#add_voice_dialog').dialog('open')});
                 $(".add_voice_link").click(function(){$('#add_voice_dialog').dialog('open'); return false;});
-                
+
                 // Setup buttons
                 $("button").addClass("ui-button ui-state-default ui-corner-all");
                 $("button").hover(function(){
@@ -342,8 +389,8 @@
                 }, function(){
                     $(this).removeClass("ui-state-hover");
                 });
-                
-                
+
+
                 // Setup Add your Organization form and dialog
                 $("#add_org_dialog").dialog({
                     title: 'Add your Organization', modal: true, resizable: false, draggable: false, autoOpen: false, 
@@ -371,7 +418,7 @@
                         $("#success_dialog").dialog("open");
                     }
                 });
-                
+
                 $("#success_dialog").dialog({
                     title: 'Success', modal: true, resizable: false, draggable: false, autoOpen: false, 
                     width: 283,
@@ -385,16 +432,18 @@
                         }
                     }
                 });
-                
+
                 // Setup supporter map
                 var map = new google.maps.Map(document.getElementById("supporter_map"), {
                     zoom: 11,
                     center: baltimore,
                     mapTypeId: google.maps.MapTypeId.TERRAIN,
                     mapTypeControl: false,
-                    scrollwheel: false
+                    scrollwheel: false,
+                    navigationControlOptions: {
+                        position: google.maps.ControlPosition.TOP_RIGHT
+                    },
                 });
-                
                 // Add map markers
                 var infoWindow = new google.maps.InfoWindow();
                 var markerBounds = new google.maps.LatLngBounds();
@@ -414,7 +463,6 @@
                 google.maps.event.addListener(map, "click", function(){
                     infoWindow.close();
                 });
-
                 {% for marker in markers.items %}
                     content = "<div class='infowindow'>";
                     {% for user in marker.1.data %}
@@ -441,41 +489,44 @@
                         {% endif %}
                     });
                 {% endfor %}
-            });
-            
-            // Setup YouTube Direct
-            $("#youtube_direct_dialog").dialog({
-                title: 'Submit a Video', modal: true, resizable: true, draggable: true, autoOpen: false, 
-                width: 330,
-                height: 540,
-                beforeclose: function(event, ui) {
-                    $("#youtube_direct_link").show();
-                    $("#youtube_direct_button").show();
+
+                // Setup YouTube Direct
+                $("#youtube_direct_dialog").dialog({
+                    title: 'Submit a Video', modal: true, resizable: true, draggable: true, autoOpen: false, 
+                    width: 330,
+                    height: 540,
+                    beforeclose: function(event, ui) {
+                        $("#youtube_direct_link").show();
+                        $("#youtube_direct_button").show();
+                    }
+                });
+                $("#youtube_direct_link").click(function(){
+                    $("#youtube_direct_dialog").dialog("open");
+                    return false;
+                });
+                $("#youtube_direct_button").click(function(){
+                    $("#youtube_direct_dialog").dialog("open");
+                    return false;
+                });
+                var ytd = new Ytd();
+                ytd.setAssignmentId("7");
+                ytd.setCallToAction("youtube_direct_link");
+                ytd.setCallToAction("youtube_direct_button");
+                var containerWidth = 300;
+                var containerHeight = 470;
+                ytd.setYtdContainer("ytdContainer", containerWidth, containerHeight);
+                ytd.ready();
+
+                // If we're returning from ytd login, show the popup
+                if (location.hash.search(/return\-sessionId/) > 0){
+                    $("#youtube_direct_dialog").dialog("open");
+                    location.hash = "";
                 }
-            });
-            $("#youtube_direct_link").click(function(){
-                $("#youtube_direct_dialog").dialog("open");
-                return false;
-            })
-            $("#youtube_direct_button").click(function(){
-                $("#youtube_direct_dialog").dialog("open");
-                return false;
-            })
-            var ytd = new Ytd();
-            ytd.setAssignmentId("7");
-            ytd.setCallToAction("youtube_direct_link");
-            ytd.setCallToAction("youtube_direct_button");
-            var containerWidth = 300;
-            var containerHeight = 470;
-            ytd.setYtdContainer("ytdContainer", containerWidth, containerHeight);
-            ytd.ready();
-            
-            // If we're returning from ytd login, show the popup
-            if (location.hash.search(/return\-sessionId/) > 0){
-                $("#youtube_direct_dialog").dialog("open");
-                location.hash = "";
-            }
-            
+
+                // Setup the Keyword closer
+                // $("#cloud").accordion({ collapsible: true, autoHeight: false });
+
+            });    
             // Google Analytics Tracking
             (function() {
                 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
