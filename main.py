@@ -402,13 +402,13 @@ class ApiSupporters(webapp.RequestHandler):
         # Look for a cache hit
         cache_key = "api/supporters?limit=%s&offset=%s&markers=%sword=%s" % (limit, offset, markers, word)
         resp = memcache.get(cache_key)
-        # if resp:
-        #     resp['metadata']['from_cache'] = True
-        #     if pprint:
-        #         self.response.out.write(json.dumps(resp, indent=2))
-        #     else:
-        #         self.response.out.write(json.dumps(resp))
-        #     return
+        if resp:
+            resp['metadata']['from_cache'] = True
+            if pprint:
+                self.response.out.write(json.dumps(resp, indent=2))
+            else:
+                self.response.out.write(json.dumps(resp))
+            return
         
         # Setup variables
         start = datetime.now()
