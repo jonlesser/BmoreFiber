@@ -338,12 +338,23 @@ input.inputError {border: 2px solid red; background:#FBE3E4;}
     margin-top:24px;
     top:0;
     z-index: 500;
-    width:300px;
+    width:290px;
+}
+#map_spinner{
+    position:absolute;
+    left:288px;
+    margin-top:34px;
+    z-index: 500;
+    display:none;
 }
 
 .ui-accordion .ui-accordion-content{
     padding: 0px 12px !important;
 }
+.word-selected { 
+    border: 5px solid #fbcb09 !important; 
+}
+
 a#cloud_close{
     position:absolute;
     top:0;

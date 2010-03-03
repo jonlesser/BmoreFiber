@@ -52,29 +52,10 @@ class MainHandler(webapp.RequestHandler):
             return
         
         # Fetch words for the word club
-        # words = Cloud.all().order("word").fetch(100)
-        words = []
+        words = Cloud.all().order("word").fetch(100)
         
-        # Fetch all of the markers
-        markers = {}
-        total_supporters = 0
-        supporters = Supporter.all().filter('is_org = ', False).filter('approved = ', True).order('-timestamp')
-        for supporter in supporters:
-            total_supporters += 1
-            key = "%.3f, %.3f" % (supporter.geoloc.lat, supporter.geoloc.lon)
-            if key in markers:
-                markers[key]['total'] += 1
-                markers[key]['data'].append({"name":supporter.name, "reason": supporter.reason, "date":supporter.timestamp})
-                if markers[key]['total'] > 99:
-                    markers[key]['lots'] = True
-            else:
-                markers[key] = {}
-                markers[key]['total'] = 1
-                markers[key]['data'] = [{"name":supporter.name, "reason": supporter.reason, "date":supporter.timestamp}]
-                markers[key]['lots'] = False
-        
-        # if total_supporters > 200:
-        #     markers = markers[len(markers)-200:len(markers)]
+        # Count up the supporters
+        total_supporters = Supporter.all().filter('is_org = ', False).filter('approved = ', True).count()
         
         # Fetch all of the organizations
         orgs = []
@@ -86,7 +67,7 @@ class MainHandler(webapp.RequestHandler):
         total_orgs = len(orgs)
         shuffle(orgs)
         
-        template_values = {"markers": markers, "orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters, "words": words}
+        template_values = {"orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters, "words": words}
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         

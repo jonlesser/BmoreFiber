@@ -1,5 +1,11 @@
-baltimore = new google.maps.LatLng(39.31, -76.61);
-bounding = new google.maps.LatLngBounds(new google.maps.LatLng(39.2429, -76.6942), new google.maps.LatLng(39.4298, -76.4566));
+var baltimore = new google.maps.LatLng(39.31, -76.68);
+var bounding = new google.maps.LatLngBounds(new google.maps.LatLng(39.2429, -76.6942), new google.maps.LatLng(39.4298, -76.4566));
+var infoWindow = new google.maps.InfoWindow();
+var markerBounds = new google.maps.LatLngBounds();
+var markerArray = [];
+var apiResponseArray = [];
+var timeout = null;
+var map = null;
 $(document).ready(function() {
     jQuery.validator.setDefaults({ success: "valid", onkeyup: function(element){}, errorClass: "inputError"});
     jQuery.validator.addMethod("youtube", function(value, element) { 
@@ -24,7 +30,7 @@ $(document).ready(function() {
                 alert("Oh Noes, Google's geocoder service is down. Try again?");
                 return;
             }
-            
+
             // Make a new map with the location and append it after the field
             $("#add_voice_form_map").show();
             var add_map = new google.maps.Map(document.getElementById("add_voice_form_map"), {
@@ -44,7 +50,7 @@ $(document).ready(function() {
             });
             $("#id_geolat").val(results[0].geometry.location.lat());
             $("#id_geolng").val(results[0].geometry.location.lng());
-            
+
             // Revalidate the address field to clear any errors that might be there
             $("#add_voice_form").validate().element("#id_geolng");
         });
@@ -79,7 +85,7 @@ $(document).ready(function() {
     });
     $("#add_voice_button").click(function(){$('#add_voice_dialog').dialog('open')});
     $(".add_voice_link").click(function(){$('#add_voice_dialog').dialog('open'); return false;});
-    
+
     // Setup buttons
     $("button").addClass("ui-button ui-state-default ui-corner-all");
     $("button").hover(function(){
@@ -87,8 +93,8 @@ $(document).ready(function() {
     }, function(){
         $(this).removeClass("ui-state-hover");
     });
-    
-    
+
+
     // Setup Add your Organization form and dialog
     $("#add_org_dialog").dialog({
         title: 'Add your Organization', modal: true, resizable: false, draggable: false, autoOpen: false, 
@@ -116,7 +122,7 @@ $(document).ready(function() {
             $("#success_dialog").dialog("open");
         }
     });
-    
+
     $("#success_dialog").dialog({
         title: 'Success', modal: true, resizable: false, draggable: false, autoOpen: false, 
         width: 283,
@@ -130,9 +136,9 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     // Setup supporter map
-    var map = new google.maps.Map(document.getElementById("supporter_map"), {
+    map = new google.maps.Map(document.getElementById("supporter_map"), {
         zoom: 11,
         center: baltimore,
         mapTypeId: google.maps.MapTypeId.TERRAIN,
@@ -140,53 +146,15 @@ $(document).ready(function() {
         scrollwheel: false,
         navigationControlOptions: {
             position: google.maps.ControlPosition.TOP_RIGHT
-        },
+        }
     });
-    // Add map markers
-    var infoWindow = new google.maps.InfoWindow();
-    var markerBounds = new google.maps.LatLngBounds();
-    var markerArray = [];
-
-    function makeMarker(options){
-        var pushPin = new google.maps.Marker({map:map});
-        pushPin.setOptions(options);
-        google.maps.event.addListener(pushPin, "click", function(){
-            infoWindow.setOptions(options);
-            infoWindow.open(map, pushPin);
-        });
-        markerBounds.extend(options.position);
-        markerArray.push(pushPin);
-        return pushPin;
-    }
+    // Setup map click event to close any open info windows
     google.maps.event.addListener(map, "click", function(){
         infoWindow.close();
     });
-    {% for marker in markers.items %}
-        content = "<div class='infowindow'>";
-        {% for user in marker.1.data %}
-            content += "<h3>{{user.reason}}</h3>";
-            content += "<p><i>{{user.name}}, {{user.date|date:"N j, Y"}}</i></p>";
-        {% endfor %}
-        content += "</div>";
-        makeMarker({
-            position: new google.maps.LatLng({{marker.0}}),
-            content: content,
-            {% ifequal marker.1.total 1 %}
-                title: "{{marker.1.total}} supporter",
-            {% else %}
-                title: "{{marker.1.total}} supporters",
-            {% endifequal %}
-            {% if marker.1.lots %}
-                icon: "/static/images/markers/blank.png"
-            {% else %}
-                {% ifequal marker.1.total 1 %}
-                    icon: "/static/images/markers/marker.png"
-                {% else %}
-                    icon: "/static/images/markers/marker{{marker.1.total}}.png"
-                {% endifequal %}
-            {% endif %}
-        });
-    {% endfor %}
+    
+    // set the timout to begin downloading and plotting the pushpins
+    timeout = window.setTimeout(displayPushPins, 100);
 
     // Setup YouTube Direct
     $("#youtube_direct_dialog").dialog({
@@ -222,9 +190,121 @@ $(document).ready(function() {
     }
 
     // Setup the Keyword closer
-    // $("#cloud").accordion({ collapsible: true, autoHeight: false });
+    $("#cloud").accordion({ collapsible: true, autoHeight: false });
+    $(".word_button").click(function(){
+        // Fire the map's click event to close any open infowindows
+        infoWindow.close();
+        
+        // If the button has the word-selected class, we're toggling it off, so show all the markers again
+        if($(this).hasClass("word-selected")){
+            $(this).removeClass("word-selected");
+            displayPushPins();
+        } else {
+            $(".word_button").removeClass("word-selected");
+            $(this).addClass("word-selected");
+            displayPushPins({ word: $(this).html()});
+        }
+    });
 
-});    
+}); // Close of .ready() block
+
+
+function makeMarker(options){
+    var pushPin = new google.maps.Marker({map:map});
+    pushPin.setOptions(options);
+    google.maps.event.addListener(pushPin, "click", function(){
+        infoWindow.setOptions(options);
+        infoWindow.open(map, pushPin);
+    });
+    markerBounds.extend(options.position);
+    markerArray.push(pushPin);
+    return pushPin;
+}
+
+function removeMarkers(){
+    while (marker = markerArray.pop()){
+        marker.setMap(null);
+    }
+}
+
+// initial call from $(document).ready()), initiates the API call and add the pushpins
+// TODO: Allow options array to be passed to displayPushPins
+function displayPushPins(options) 
+{   
+    default_params = { limit: "1000", appid: "bmorefiber", markers: "true" };
+    
+    // Show a spinner
+    $("#map_spinner").show();
+    
+    // Kill any timeouts that might be in progress
+    clearTimeout(timeout);
+    
+    // remove any existing map markers
+    removeMarkers();
+    
+    // Make our query
+    $.ajax({ url: "/api/supporters",
+        dataType: 'json',
+        data: $.extend(default_params, options),
+        success: function (data) {
+            apiResponseArray = data.data;
+            // if we have markers, make the calls to add them to map
+            if (apiResponseArray.length > 0) {
+                window.setTimeout(addMarkersToMapAsync, 100);
+            }
+        }
+    });
+}
+// called on timeout to add markers in batches
+function addMarkersToMapAsync() {
+    var iconTemplate = "/static/images/markers/marker{num}.png";
+    // loop through return array, pop off 50 at a time
+    for (var i = 0; i < 50; i++) {
+
+        // grab the marker details
+        var marker = apiResponseArray.pop();
+        var count = parseInt(marker.count, 10);
+        var content = buildContent(marker, count); 
+        // call the make marker method on the map
+        makeMarker({
+            position: parseGeoLoc(marker.location),
+            content: content,
+            title: (count > 1) ? count + " supporters" : "1 supporter",
+            icon: (count > 1 && count < 100) ? iconTemplate.replace("{num}", count) : iconTemplate.replace("{num}", "")
+        });
+
+        // if no more items, exit
+        if (apiResponseArray.length == 0) {
+            // hide a spinner
+            $("#map_spinner").hide();
+            break;
+        }
+    }
+    // stop the callback when the apiResponse array is empty
+    if (apiResponseArray.length > 0) {
+        timeout = window.setTimeout(addMarkersToMapAsync, 200);
+    }
+}
+// helper method to build content based on list of supporters for a marker
+function buildContent(marker, count) {
+
+    // use an array to avoid string concat for speed.  most will be fine, but one pushpin has count = 84, another at 56, etc.
+    var content = [];
+    var message_templ = "<div class='infowindow'><h3>message</h3><p><i>name, date</i></p></div>";
+    for (var j = 0; j < count; j++) 
+    {
+        // grab the person and add their details
+        var person = marker.supporters[j];
+        content.push(message_templ.replace("message", person.reason).replace("name", person.name).replace("date", person.date));
+    }
+    return content.join("\n");
+}
+// parse the geoloc into google obj
+function parseGeoLoc(s) {
+    var pts = new String(s).split(",");
+    return new google.maps.LatLng(parseFloat(pts[0]), parseFloat(pts[1]));
+}
+  
 // Google Analytics Tracking
 (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
