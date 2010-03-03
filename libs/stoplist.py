@@ -1,4 +1,9 @@
-stoplist = [ "verizon", "comcast", "fios", "baltimore", "baltimores", "benefit", "communities", "businesses","greatly", "growth",
+stoplist = [ 
+
+"being", "educational", "institutiona", "needs", "college", "fastest", "fiber", "1gbps", "institutions", "faster",
+"infrastructures", "perfect", "information", "digital", "residents", "network", "companies", "broadband", "access",
+
+"verizon", "comcast", "fios", "baltimore", "baltimores", "benefit","areas", "communities", "businesses","greatly", "growth",
 "city", "i", "a", "about", "an", "are", "as", "at", "be", "because", "by", "com", "for", "from", "how", "in",
 "internet", "is", "it", "of", "on", "or", "tech", "that", "the", "this", "to", "was", "what", "when", "where", "who",
 "will", "with", "www", "and", "like", "we", "would", "have", "has", "more", "our", "high", "all", "not", "here", "one",

@@ -310,7 +310,7 @@ class UpdateCloud(webapp.RequestHandler):
             stems[stem]["key_total"] = len(stems[stem]["keys"])
 
             # This is where we set the cutoff for min frequency required to be in the cloud
-            if stems[stem]["key_total"] > 14:
+            if stems[stem]["key_total"] > 17:
                 sized_tuple.append((stem, stems[stem]["key_total"]))
             else:
                 del(stems[stem])
@@ -319,7 +319,7 @@ class UpdateCloud(webapp.RequestHandler):
         sized_stems = self.size_words(12, sized_tuple)
         for item in sized_stems:
             stem = item.keys().pop()
-            stems[stem]["size"] = int(item[stem]) + 12
+            stems[stem]["size"] = int(item[stem]) + 10
         
         # Make some cloud row objects
         cloud_rows = []

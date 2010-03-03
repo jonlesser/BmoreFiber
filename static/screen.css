@@ -37,7 +37,7 @@ p {margin:0 0 1.5em;}
 p img.left {float:left;margin:1.5em 1.5em 1.5em 0;padding:0;}
 p img.right {float:right;margin:1.5em 0 1.5em 1.5em;}
 a:focus, a:hover {color:#000;}
-a {color:#009;text-decoration:underline;}
+a {color:#1C94C4;text-decoration:underline;}
 blockquote {margin:1.5em;color:#666;font-style:italic;}
 strong {font-weight:bold;}
 em, dfn {font-style:italic;}
@@ -334,22 +334,28 @@ input.inputError {border: 2px solid red; background:#FBE3E4;}
 }
 #cloud{
     position:absolute;
-    left:24px;
+    left:18px;
     margin-top:24px;
     top:0;
     z-index: 500;
-    width:290px;
+    width:350px;
 }
 #map_spinner{
     position:absolute;
-    left:288px;
-    margin-top:34px;
+    left:347px;
+    margin-top:28px;
     z-index: 500;
     display:none;
 }
 
 .ui-accordion .ui-accordion-content{
     padding: 0px 12px !important;
+}
+
+.word_button span{
+    color:grey;
+    font-size:11px !important;
+    font-weight:normal !important;
 }
 .word-selected { 
     border: 5px solid #fbcb09 !important; 
@@ -384,7 +390,7 @@ input[type="text"], input[type="password"], input.text, input.title, textarea, s
     padding:3px;
 }
 .helper {color:grey; margin: 0 0 0.8em 0;}
-button {cursor: pointer;}
+button {cursor: pointer; border-width: 5px !important;}
 #add_voice_button, #add_org_button, #youtube_direct_button { font-size:18px; }
 #header {margin-top:20px;}
 #header h1 {font-size:100px; font-weight:bold; margin-bottom:30px;}

@@ -28,7 +28,7 @@
             <div id="letter" class="span-15">
                 <p>
                     Google is planning to build ultra-high speed 
-                    <a href="http://www.google.com/appserve/fiberrfi/public/overview" target="blank">broadband networks</a> in a 
+                    <a href="http://www.google.com/appserve/fiberrfi/public/overview">broadband networks</a> in a 
                     small number of trial locations across the country. The plan is to deploy 
                     1 Gbps, fiber optic connections directly to people's homes. This connection 
                     would be 2,000% faster than the fastest connection currently available to 
@@ -44,7 +44,7 @@
                 <p>
                     Google is asking local governments and residents to express their interest in 
                     the fiber optic trial, and to provide information about their community by 
-                    completing a <a href="http://www.google.com/appserve/fiberrfi/public/options"  target="blank">
+                    completing a <a href="http://www.google.com/appserve/fiberrfi/public/options">
                     request for information</a> by <b>March 26, 2010</b>.
                 </p>
                 <p>
@@ -63,11 +63,11 @@
                 </ul>
             </div>
             <div class="span-7 last">
-                <img src="/static/bmorefiber_logo.png"/>
+                <img src="/static/bmorefiber_logo.png" alt="BmoreFiber Logo"/>
             </div>
         </div>
         <div class="container">
-            <h1 class="span-20">{{ total_supporters }} Baltimoreans Support Community Fiber <button id="add_voice_button">Add your Voice</button></h1>
+            <h1 class="span-25">Over 1,000 Baltimoreans Support Community Fiber <button id="add_voice_button">Add your Voice</button></h1>
         </div>
         <div id="supporter_map_wrap">
             <div id="cloud">
@@ -75,7 +75,7 @@
                 <div>
                     <p>
                         {% for row in words %}
-                            <button style="font-size:{{ row.size}}px" class="word_button">{{ row.word }}</button>
+                            <button style="font-size:{{ row.size}}px" class="word_button" name="{{ row.word }}">{{ row.word }} <span>({{ row.key_total }})</span></button>
                         {% endfor %}
                     </p>
                 </div>
@@ -131,6 +131,12 @@
         <div id="press_coverage">
             <ul id="press_list">
                 <li>
+                    <b>March 3, 2010</b><br/>
+                    <a href="http://www.businessweek.com/technology/content/mar2010/tc2010032_027253.htm">
+                       Gaga for Google Broadband</a><br/>
+                    Olga Kharif, <i>Businessweek</i>
+                </li>                                
+                <li>
                     <b>March 1, 2010</b><br/>
                     <a href="http://www.publicbroadcasting.net/wypr/Midday.mediaplayer?STATION_NAME=wypr&amp;MEDIA_ID=888211&amp;MEDIA_EXTENSION=mp3&amp;MODULE=Midday">
                        The Baltimore Community Fiber Movement</a><br/>
@@ -157,7 +163,7 @@
                 <li>
                     <b>February 28, 2010</b><br/>
                     <a href="http://baltimorebrew.com/blog/2010/02/28/baltimore-presses-google-to-demo-high-speed-internet-brew-qa/">
-                        Baltimore presses Google to demo high-speed Internet: Brew Q&A</a><br/>
+                        Baltimore presses Google to demo high-speed Internet: Brew Q&amp;A</a><br/>
                     <i>Baltimore Brew</i>
                 </li>
                 <li>

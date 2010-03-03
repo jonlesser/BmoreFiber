@@ -202,7 +202,7 @@ $(document).ready(function() {
         } else {
             $(".word_button").removeClass("word-selected");
             $(this).addClass("word-selected");
-            displayPushPins({ word: $(this).html()});
+            displayPushPins({ word: $(this).attr("name")});
         }
     });
 
