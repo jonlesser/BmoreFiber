@@ -173,7 +173,7 @@ class AdminUnapprovedOrg(webapp.RequestHandler):
         logout_url = users.create_logout_url("/")
 
         unapproved_org = []
-        result = Supporter.all().filter('is_org = ', True).filter('approved = ', False)
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', False).order("email")
         for row in result:
             unapproved_org.append(row)
         
@@ -187,7 +187,7 @@ class AdminApprovedOrg(webapp.RequestHandler):
         logout_url = users.create_logout_url("/")
 
         approved_org = []
-        result = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
+        result = Supporter.all().filter('is_org = ', True).filter('approved = ', True).order("email")
         for row in result:
             approved_org.append(row)
 
@@ -201,7 +201,7 @@ class AdminApprovedPeople(webapp.RequestHandler):
         logout_url = users.create_logout_url("/")
 
         approved_people = []
-        result = Supporter.all().filter('is_org = ', False).filter('approved = ', True)
+        result = Supporter.all().filter('is_org = ', False).filter('approved = ', True).order("email")
         for row in result:
             approved_people.append(row)
 
@@ -215,7 +215,7 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
         logout_url = users.create_logout_url("/")
         
         unapproved_people = []
-        result = Supporter.all().filter('is_org = ', False).filter('approved = ', False)
+        result = Supporter.all().filter('is_org = ', False).filter('approved = ', False).order("email")
         for row in result:
             unapproved_people.append(row)
             
