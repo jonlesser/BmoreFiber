@@ -9,6 +9,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
+from libs.Counter import *
 import django.utils.simplejson as json
 from datetime import datetime
 
@@ -55,7 +56,7 @@ class MainHandler(webapp.RequestHandler):
         words = Cloud.all().order("word").fetch(100)
         
         # Count up the supporters
-        total_supporters = Supporter.all().filter('is_org = ', False).filter('approved = ', True).count()
+        total_supporters = get_count("approved_supporters")
         
         # Fetch all of the organizations
         orgs = []
@@ -64,7 +65,7 @@ class MainHandler(webapp.RequestHandler):
         for supporter in supporters:
             orgs.append(supporter)
         
-        total_orgs = len(orgs)
+        total_orgs = get_count("approved_orgs")
         shuffle(orgs)
         
         template_values = {"orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters, "words": words}
@@ -72,7 +73,7 @@ class MainHandler(webapp.RequestHandler):
         html = template.render(template_file, template_values)
         
         # Cache for 6 hours. (approvals will clear cache)
-        memcache.add("html", html, 21600)
+        memcache.add("html", html, 86400)
         
         self.response.out.write(html)
 
@@ -230,11 +231,13 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
         key = cgi.escape(self.request.get('key'))
         if action == "approve":
             row = db.get(key)
+            increment("approved_orgs") if row.is_org else increment("approved_supporters")
             row.approved = True
             row.put()
             memcache.flush_all()
         elif action == "unapprove":
             row = db.get(key)
+            increment("approved_orgs", -1) if row.is_org else increment("approved_supporters", -1)
             row.approved = False
             row.put()
             memcache.flush_all()
@@ -243,6 +246,39 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
             row.delete()
             memcache.flush_all()
         self.redirect(return_to)
+
+
+
+class AdminInitCounters(webapp.RequestHandler):
+    def get(self):
+        
+        # Reset counters
+        reset_count("approved_supporters")
+        reset_count("approved_orgs")
+        
+        approved = 0
+        approved_orgs = 0
+
+        self.response.out.write("approved: %d<br>" % approved)
+        self.response.out.write("approved counter: %s<br>" % get_count("approved_supporters"))
+        self.response.out.write("approved_orgs: %d<br>" % approved_orgs)
+        self.response.out.write("approved_orgs counter: %s<br>" % get_count("approved_orgs"))
+
+
+        q = Supporter.all(keys_only=True).filter('is_org = ', False).filter('approved = ', True)
+        for row in q:
+            approved += 1
+            
+        q = Supporter.all(keys_only=True).filter('is_org = ', True).filter('approved = ', True)
+        for row in q:
+            approved_orgs += 1
+        
+        increment("approved_supporters", approved)
+        increment("approved_orgs", approved_orgs)
+        self.response.out.write("approved: %d<br>" % approved)
+        self.response.out.write("approved counter: %s<br>" % get_count("approved_supporters"))
+        self.response.out.write("approved_orgs: %d<br>" % approved_orgs)
+        self.response.out.write("approved_orgs counter: %s<br>" % get_count("approved_orgs"))
 
 class UpdateCloud(webapp.RequestHandler):
     def sortfunc(self, x, y):
@@ -276,6 +312,8 @@ class UpdateCloud(webapp.RequestHandler):
         stemmer = PorterStemmer()
         punctuation = re.compile(r'[.?\'!,":;&\-\+=]*')
         stems = {}
+        base_text_size = 11
+        min_freq = 20
         
         for row in Supporter.all().filter("approved = ", True).filter("is_org = ", False):
             corpus = row.reason
@@ -310,7 +348,7 @@ class UpdateCloud(webapp.RequestHandler):
             stems[stem]["key_total"] = len(stems[stem]["keys"])
 
             # This is where we set the cutoff for min frequency required to be in the cloud
-            if stems[stem]["key_total"] > 17:
+            if stems[stem]["key_total"] > min_freq:
                 sized_tuple.append((stem, stems[stem]["key_total"]))
             else:
                 del(stems[stem])
@@ -319,7 +357,7 @@ class UpdateCloud(webapp.RequestHandler):
         sized_stems = self.size_words(12, sized_tuple)
         for item in sized_stems:
             stem = item.keys().pop()
-            stems[stem]["size"] = int(item[stem]) + 10
+            stems[stem]["size"] = int(item[stem]) + base_text_size
         
         # Make some cloud row objects
         cloud_rows = []
@@ -484,6 +522,7 @@ def main():
              ('/admin/approvedpeople', AdminApprovedPeople),
              ('/admin/approvedorgs', AdminApprovedOrg),
              ('/admin/unapprovedorgs', AdminUnapprovedOrg),
+             ('/admin/initcounters', AdminInitCounters),
              ('/admin/updatecloud', UpdateCloud),
              ('/api/supporters', ApiSupporters),
            ]
