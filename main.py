@@ -143,7 +143,7 @@ class CsvOutput(webapp.RequestHandler):
 
 class CsvImport(webapp.RequestHandler):
     def get(self):
-        return # safety first
+        # return # safety first
         import csv
         infile = csv.DictReader(open('csv.csv'), delimiter=',', quotechar='"')
         db.delete(Supporter.all())
@@ -312,8 +312,9 @@ class UpdateCloud(webapp.RequestHandler):
         stemmer = PorterStemmer()
         punctuation = re.compile(r'[.?\'!,":;&\-\+=]*')
         stems = {}
-        base_text_size = 11
-        min_freq = 20
+        base_text_size = int(cgi.escape(self.request.get('base_text_size', "11")))
+        min_freq = int(cgi.escape(self.request.get('min_freq', "5")))
+        target_keyword_count = int(cgi.escape(self.request.get('target_keyword_count', "20")))
         
         for row in Supporter.all().filter("approved = ", True).filter("is_org = ", False):
             corpus = row.reason
@@ -340,7 +341,6 @@ class UpdateCloud(webapp.RequestHandler):
                     stems[stem]["words"] = set([token])
         
         # cleanup extra keys and build tuple list for sizing function
-        sized_tuple = []
         for stem in stems.keys():
             stems[stem]["words"] = list(stems[stem]["words"])
             stems[stem]["word"] = stems[stem]["words"].pop() # This grabs a random word
@@ -348,10 +348,17 @@ class UpdateCloud(webapp.RequestHandler):
             stems[stem]["key_total"] = len(stems[stem]["keys"])
 
             # This is where we set the cutoff for min frequency required to be in the cloud
-            if stems[stem]["key_total"] > min_freq:
-                sized_tuple.append((stem, stems[stem]["key_total"]))
-            else:
-                del(stems[stem])
+            if stems[stem]["key_total"] < min_freq: del(stems[stem])
+        
+        # We want a list of 20 keywords, so continue upping the min_freq until the list is 20 or less
+        while len(stems.keys()) > target_keyword_count:
+            min_freq += 1
+            for stem in stems.keys():
+                if stems[stem]["key_total"] < min_freq: del(stems[stem])
+            
+        
+        # Create a tuple of items for the sizing function
+        sized_tuple = [(stem, stems[stem]["key_total"]) for stem in stems]
         
         # Get a list of stems with a relative size and add that size to the stems dictionary
         sized_stems = self.size_words(12, sized_tuple)
@@ -365,11 +372,12 @@ class UpdateCloud(webapp.RequestHandler):
             row = Cloud(stem=stem, key_total=data['key_total'], size=data['size'], 
                         word=data['word'], key_list=data['keys'], word_list=data['words'])
             cloud_rows.append(row)
+            self.response.out.write("%s: %s <br/>" % (data['word'], data['key_total']))
 
         # Update the Cloud table
         if len(cloud_rows):
             db.delete(Cloud.all())
-            db.put(cloud_rows[:500])
+            db.put(cloud_rows)
             self.response.out.write("Updated %s rows" % len(cloud_rows))
         else: 
             self.response.out.write("I didn't update the table because I didn't have any rows to update.")
