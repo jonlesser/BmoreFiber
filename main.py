@@ -312,9 +312,9 @@ class UpdateCloud(webapp.RequestHandler):
         stemmer = PorterStemmer()
         punctuation = re.compile(r'[.?\'!,":;&\-\+=]*')
         stems = {}
-        base_text_size = int(cgi.escape(self.request.get('base_text_size', "11")))
+        base_text_size = int(cgi.escape(self.request.get('base_text_size', "12")))
         min_freq = int(cgi.escape(self.request.get('min_freq', "5")))
-        target_keyword_count = int(cgi.escape(self.request.get('target_keyword_count', "20")))
+        target_keyword_count = int(cgi.escape(self.request.get('target_keyword_count', "21")))
         
         for row in Supporter.all().filter("approved = ", True).filter("is_org = ", False):
             corpus = row.reason
