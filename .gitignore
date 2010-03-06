@@ -1,3 +1,4 @@
 .DS_Store
-static/BaltoCommunityFiber.graffle
 *.pyc
+static/wireframes
+csv.csv
