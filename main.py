@@ -13,6 +13,9 @@ from libs.Counter import *
 import django.utils.simplejson as json
 from datetime import datetime
 
+"""
+Models
+"""
 class Cloud(db.Model):
     stem = db.StringProperty()
     key_list = db.ListProperty(db.Key)
@@ -40,6 +43,9 @@ class Supporter(db.Model):
     approved    = db.BooleanProperty(default=False)
     timestamp   = db.DateTimeProperty(auto_now_add=True)
 
+"""
+Handlers
+"""
 class MainHandler(webapp.RequestHandler):
 
     def get(self):
@@ -72,7 +78,7 @@ class MainHandler(webapp.RequestHandler):
         template_file = os.path.join(os.path.dirname(__file__), 'index.html')
         html = template.render(template_file, template_values)
         
-        # Cache for 6 hours. (approvals will clear cache)
+        # Cache for 24 hours. (approvals will clear cache)
         memcache.add("html", html, 86400)
         
         self.response.out.write(html)
@@ -88,7 +94,7 @@ class MainHandler(webapp.RequestHandler):
         video_url   = self.request.get('video_url')
         is_org      = cgi.escape(self.request.get('is_org'), True)
         
-        # Fetch oEmbed response
+        # Fetch oEmbed response (This is not used at the moment. Using YouTube Direct solution instead.)
         video_embed = None
         if video_url:
             url = "http://www.youtube.com/oembed?url=%s&format=json&maxwidth=%d" % (urllib.quote(video_url), 200)
@@ -143,7 +149,8 @@ class CsvOutput(webapp.RequestHandler):
 
 class CsvImport(webapp.RequestHandler):
     def get(self):
-        # return # safety first
+        """Imports CSV data into local datastore for easier offline development"""
+        return # safety first
         import csv
         infile = csv.DictReader(open('csv.csv'), delimiter=',', quotechar='"')
         db.delete(Supporter.all())
@@ -159,6 +166,7 @@ class CsvImport(webapp.RequestHandler):
             lon = row['lon']
             # image = row['image']
             website = unicode(row['website'])
+            
             s = Supporter(timestamp=timestamp, name=name, address=address, email=email, reason=reason)
             if(website <> "None"): s.website = website
             # if(image <> "None"): s.image = image
@@ -250,6 +258,7 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
 
 
 class AdminInitCounters(webapp.RequestHandler):
+    """Zeros and recomputes counters."""
     def get(self):
         
         # Reset counters
@@ -263,7 +272,6 @@ class AdminInitCounters(webapp.RequestHandler):
         self.response.out.write("approved counter: %s<br>" % get_count("approved_supporters"))
         self.response.out.write("approved_orgs: %d<br>" % approved_orgs)
         self.response.out.write("approved_orgs counter: %s<br>" % get_count("approved_orgs"))
-
 
         q = Supporter.all(keys_only=True).filter('is_org = ', False).filter('approved = ', True)
         for row in q:
@@ -281,10 +289,12 @@ class AdminInitCounters(webapp.RequestHandler):
         self.response.out.write("approved_orgs counter: %s<br>" % get_count("approved_orgs"))
 
 class UpdateCloud(webapp.RequestHandler):
+    """Sift through user generated reasons and extract keywords."""
     def sortfunc(self, x, y):
         return cmp(y[1], x[1])
 
     def size_words(self, steps, input):
+        """This is pulled from Chase Davis (http://www.chasedavis.com/2007/feb/11/word-stemming-tag-clouds/)"""
         if not type(input) == types.ListType or len(input) <= 0 or steps <= 0:
             raise Exception("Please be sure steps > 0 and your input list is not empty.")
         else:
@@ -384,7 +394,7 @@ class UpdateCloud(webapp.RequestHandler):
         
 
 class ApiSupporters(webapp.RequestHandler):
-    
+    """Expose supporter data as JSON over a REST api. Used by the map and public api."""
     def formatSupporter(self, supporter, loc=False):
         data = {
             "name": supporter.name, 
@@ -488,7 +498,7 @@ class ApiSupporters(webapp.RequestHandler):
                     marks[key]['count'] = 1
                     marks[key]['supporters'] = [self.formatSupporter(row)]
                     
-            # convert into a list of objects
+            # convert into a list of objects (Should probably be a list comprehension)
             for k, v in marks.items():
                 v['location'] = k
                 data.append(v)
