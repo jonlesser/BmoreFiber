@@ -75,8 +75,7 @@ class MainHandler(webapp.RequestHandler):
         shuffle(orgs)
         
         template_values = {"orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters, "words": words}
-        template_file = os.path.join(os.path.dirname(__file__), 'index.html')
-        html = template.render(template_file, template_values)
+        html = template.render('templates/index.html', template_values)
         
         # Cache for 24 hours. (approvals will clear cache)
         memcache.add("html", html, 86400)
@@ -145,7 +144,7 @@ class CsvOutput(webapp.RequestHandler):
             rows.append(row)
         
         self.response.headers['Content-Type'] = "text/csv; charset=utf-8"
-        self.response.out.write(template.render('csv.html', {"rows": rows}))
+        self.response.out.write(template.render('templates/csv.html', {"rows": rows}))
 
 class CsvImport(webapp.RequestHandler):
     def get(self):
@@ -186,7 +185,7 @@ class AdminUnapprovedOrg(webapp.RequestHandler):
         for row in result:
             unapproved_org.append(row)
         
-        self.response.out.write(template.render('admin_unapproved_org.html', {
+        self.response.out.write(template.render('templates/admin_unapproved_org.html', {
             "unapproved_org": unapproved_org,
             "logout_url": logout_url,
         }))
@@ -200,7 +199,7 @@ class AdminApprovedOrg(webapp.RequestHandler):
         for row in result:
             approved_org.append(row)
 
-        self.response.out.write(template.render('admin_approved_org.html', {
+        self.response.out.write(template.render('templates/admin_approved_org.html', {
             "approved_org": approved_org,
             "logout_url": logout_url,
         }))
@@ -214,7 +213,7 @@ class AdminApprovedPeople(webapp.RequestHandler):
         for row in result:
             approved_people.append(row)
 
-        self.response.out.write(template.render('admin_approved_people.html', {
+        self.response.out.write(template.render('templates/admin_approved_people.html', {
             "approved_people": approved_people,
             "logout_url": logout_url,
         }))
@@ -228,7 +227,7 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
         for row in result:
             unapproved_people.append(row)
             
-        self.response.out.write(template.render('admin.html', {
+        self.response.out.write(template.render('templates/admin.html', {
             "unapproved_people": unapproved_people, 
             "logout_url": logout_url,
         }))
