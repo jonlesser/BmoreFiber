@@ -228,7 +228,6 @@ function removeMarkers(){
 }
 
 // initial call from $(document).ready()), initiates the API call and add the pushpins
-// TODO: Allow options array to be passed to displayPushPins
 function displayPushPins(options) 
 {   
     default_params = { limit: "1000", appid: "bmorefiber", markers: "true" };

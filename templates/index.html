@@ -100,37 +100,41 @@
                 </object>
             </div>
         </div>
-        <div class="container">
-            <h1>{{ total_orgs}} Baltimore Organizations Support Community Fiber <button id="add_org_button">Add your Organization</button></h1>
-        </div>
-        <div id="organizations">
-            {% if orgs %}
-                <ul id="org_list">
-                    {% for org in orgs %}
-                        <li>
-                            {% if org.website %}
-                                <a href="{{org.website}}">
-                                    {% if org.image %}
-                                        <img src="/static/images/logos/{{org.image}}" alt="{{org.name}}" title="{% if org.reason %} {{org.reason}} {% else %} {{org.name}} {% endif %}"/>
-                                    {% endif %}
-                                </a>
-                            {% else %}
-                                {% if org.image %}
-                                    <img src="/static/images/logos/{{org.image}}" alt="{{org.name}}" title="{{org.name}}"/>
-                                {% endif %}
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                You could be the first!
-            {% endif %}
-        </div>
-        <div class="container">
-            <h1>Press Coverage for Community Fiber in Baltimore</h1>
+        <div class="container" id="press">
+            <h1>Press Coverage of Community Fiber in Baltimore</h1>
         </div>
         <div id="press_coverage">
             <ul id="press_list">
+                <li>
+                    <b>March 8, 2010</b><br/>
+                    <a href="http://www.mtwpost.com/2010/03/08/help-convince-google-to-bring-blazingly-fast-internet-to-baltimore-call-to-action/">
+                        Help Convince Google To Bring Blazingly Fast Internet To Baltimore</a><br/>
+                    Jonathan Cooper, <i>The Mt. Washington Post</i>
+                </li>
+                <li>
+                    <b>March 8, 2010</b><br/>
+                    <a href="http://www.digitalmediabuzz.com/2010/03/google-broadband-giant-step/">
+                        Google Broadband: One Giant Step For Google</a><br/>
+                    James Zipadelli, <i>Digital Media Buzz</i>
+                </li>
+                <li>
+                    <b>March 8, 2010</b><br/>
+                    <a href="http://www.audaciousideas.org/?p=412">
+                        Baltimore’s case for Google fiberoptic investment is more than just stunts</a><br/>
+                    David Troy, <i>Open Society Institute-Baltimore </i>
+                </li>   
+                <li>
+                    <b>March 7, 2010</b><br/>
+                    <a href="http://www.examiner.com/x-284-Baltimore-Politics-Examiner">
+                        Bring Google fiber to Baltimore</a><br/>
+                    Adam Meister, <i>Examiner.com</i>
+                </li>                                
+                <li>
+                    <b>March 5, 2010</b><br/>
+                    <a href="http://www.google.com/hostednews/ap/article/ALeqM5hVUX_mebYDR8Psu6QtXe0UHfqSqAD9E8LMAG0">
+                        Google dangles ultrafast broadband and cities leap</a><br/>
+                    Briana Bierschbach, <i>Associated Press</i>
+                </li>
                 <li>
                     <b>March 3, 2010</b><br/>
                     <a href="http://www.businessweek.com/technology/content/mar2010/tc2010032_027253.htm">
@@ -234,6 +238,32 @@
                     Gus Sentementes, <i>BaltTech</i>
                 </li>
             </ul>
+        </div>
+        <div class="container">
+            <h1>{{ total_orgs}} Baltimore Organizations Support Community Fiber <button id="add_org_button">Add your Organization</button></h1>
+        </div>
+        <div id="organizations">
+            {% if orgs %}
+                <ul id="org_list">
+                    {% for org in orgs %}
+                        <li>
+                            {% if org.website %}
+                                <a href="{{org.website}}">
+                                    {% if org.image %}
+                                        <img src="/static/images/logos/{{org.image}}" alt="{{org.name}}" title="{% if org.reason %} {{org.reason}} {% else %} {{org.name}} {% endif %}"/>
+                                    {% endif %}
+                                </a>
+                            {% else %}
+                                {% if org.image %}
+                                    <img src="/static/images/logos/{{org.image}}" alt="{{org.name}}" title="{{org.name}}"/>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                You could be the first!
+            {% endif %}
         </div>
         <div id="add_voice_dialog">
             <form action="/" method="post" accept-charset="utf-8" id="add_voice_form">

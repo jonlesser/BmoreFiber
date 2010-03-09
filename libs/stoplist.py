@@ -2,7 +2,7 @@ stoplist = [
 
 "being", "educational", "institutiona", "needs", "college", "fastest", "fiber", "1gbps", "institutions", "faster",
 "infrastructures", "perfect", "information", "digital", "residents", "network", "companies", "broadband", "access",
-
+"schooles", "studentes",
 "verizon", "comcast", "fios", "baltimore", "baltimores", "benefit","areas", "communities", "businesses","greatly", "growth",
 "city", "i", "a", "about", "an", "are", "as", "at", "be", "because", "by", "com", "for", "from", "how", "in",
 "internet", "is", "it", "of", "on", "or", "tech", "that", "the", "this", "to", "was", "what", "when", "where", "who",
