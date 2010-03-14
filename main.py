@@ -35,6 +35,7 @@ class Supporter(db.Model):
     geoloc      = db.GeoPtProperty()
     email       = db.EmailProperty()
     website     = db.LinkProperty()
+    priority    = db.IntegerProperty(default=0)
     image       = db.StringProperty()
     video_url   = db.LinkProperty()
     video_embed = db.StringProperty()
@@ -64,15 +65,21 @@ class MainHandler(webapp.RequestHandler):
         # Count up the supporters
         total_supporters = get_count("approved_supporters")
         
-        # Fetch all of the organizations
+        # Fetch the priority organizations
         orgs = []
-        supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True)
-        
+        temp_orgs = []
+        supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True).order("priority")
         for supporter in supporters:
-            orgs.append(supporter)
+            if supporter.priority:
+                orgs.append(supporter)
+            else:
+                temp_orgs.append(supporter)
+        
+        # Shuffle the non-priority orgs and combine the orgs
+        shuffle(temp_orgs)
+        orgs += temp_orgs
         
         total_orgs = get_count("approved_orgs")
-        shuffle(orgs)
         
         template_values = {"orgs": orgs, "total_orgs": total_orgs, "total_supporters": total_supporters, "words": words}
         html = template.render('templates/index.html', template_values)
@@ -154,6 +161,7 @@ class CsvImport(webapp.RequestHandler):
         infile = csv.DictReader(open('csv.csv'), delimiter=',', quotechar='"')
         db.delete(Supporter.all())
         for row in infile:
+            print row['email']
             timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%d %H:%M:%S.%f")
             approved = row['approved']
             name = unicode(row['name'])
@@ -163,12 +171,12 @@ class CsvImport(webapp.RequestHandler):
             is_org = row['is_org']
             lat = row['lat']
             lon = row['lon']
-            # image = row['image']
+            image = row['image']
             website = unicode(row['website'])
             
             s = Supporter(timestamp=timestamp, name=name, address=address, email=email, reason=reason)
             if(website <> "None"): s.website = website
-            # if(image <> "None"): s.image = image
+            if(image <> "None"): s.image = image
             s.approved = True if approved == "True" else False
             s.is_org = True if is_org == "True" else False
             if lat and lon and lat <> "None" and lon <> "None":
@@ -533,7 +541,7 @@ class ApiSupporters(webapp.RequestHandler):
 def main():
     urls = [ ('/', MainHandler),  
              ('/admin/csv', CsvOutput), 
-             # ('/admin/csvimport', CsvImport), 
+             ('/admin/csvimport', CsvImport), 
              ('/admin', AdminUnapprovedPeople),
              ('/admin/', AdminUnapprovedPeople),
              ('/admin/approvedpeople', AdminApprovedPeople),

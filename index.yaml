@@ -20,6 +20,19 @@ indexes:
   properties:
   - name: approved
   - name: is_org
+  - name: priority
+
+- kind: Supporter
+  properties:
+  - name: approved
+  - name: is_org
+  - name: priority
+    direction: desc
+
+- kind: Supporter
+  properties:
+  - name: approved
+  - name: is_org
   - name: timestamp
     direction: desc
 

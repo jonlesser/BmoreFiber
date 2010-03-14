@@ -1,2 +1,2 @@
-timestamp,approved,name,address,email,reason,is_org,lat,lon,website,video_embed,video_url{% for row in rows %}
-"{{row.timestamp}}","{{row.approved}}","{{row.name}}","{{row.address}}","{{row.email}}","{{row.reason}}","{{row.is_org}}","{{row.geoloc.lat}}","{{row.geoloc.lon}}","{{row.website}}","{{row.video_embed}}","{{row.video_url}}"{% endfor %}
+timestamp,approved,name,address,email,image,reason,is_org,lat,lon,website,video_embed,video_url{% for row in rows %}
+"{{row.timestamp}}","{{row.approved}}","{{row.name}}","{{row.address}}","{{row.email}}","{{row.image}}","{{row.reason}}","{{row.is_org}}","{{row.geoloc.lat}}","{{row.geoloc.lon}}","{{row.website}}","{{row.video_embed}}","{{row.video_url}}"{% endfor %}
