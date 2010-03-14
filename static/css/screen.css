@@ -330,7 +330,6 @@ button {cursor: pointer; border-width: 5px !important;}
 /* Org list */
 #organizations, #press_coverage, #video{
     width:100%; 
-    border-bottom:   8px solid #000;
     margin-bottom:24px;
     overflow: auto;
 }
@@ -361,8 +360,28 @@ button {cursor: pointer; border-width: 5px !important;}
 }
 #press_list li a { font-weight:bold; }
 
-/* Video Player */
-#video_player {
-    width:746px;
-    margin:0px auto 24px auto;
+/* Video */
+#video_wrap {
+    margin:0 auto;
+    width:1000px;
+}
+#video_carousel ul{
+    
+}
+#video_carousel ul li{
+    width:1010px;
+    height:550px;
+}
+.video {
+    float:left;
+    width:330px;
+    height:248px;
+    margin-right:5px;
+    margin-bottom:5px;
+}
+.carousel_nav{
+    text-align:right;
+    font-weight:bold;
+    margin-bottom:20px;
+    margin-top:-53px;
 }

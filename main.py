@@ -241,17 +241,17 @@ class AdminUnapprovedPeople(webapp.RequestHandler):
             increment("approved_orgs") if row.is_org else increment("approved_supporters")
             row.approved = True
             row.put()
-            memcache.flush_all()
+            # memcache.flush_all()
         elif action == "unapprove":
             row = db.get(key)
             increment("approved_orgs", -1) if row.is_org else increment("approved_supporters", -1)
             row.approved = False
             row.put()
-            memcache.flush_all()
+            # memcache.flush_all()
         elif action == "delete":
             row = db.get(key)
             row.delete()
-            memcache.flush_all()
+            # memcache.flush_all()
         self.redirect(return_to)
 
 
