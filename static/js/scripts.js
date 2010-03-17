@@ -45,6 +45,9 @@ $(document).ready(function() {
     jQuery.validator.addMethod("youtube", function(value, element) { 
         return this.optional(element) || /^http:\/\/www\.youtube\.com\/watch\?.*/.test(value); 
     }, "You need to use a YouTube video URL with in the form of http://www.youtube.com/watch?v=xxxxxxxxxxx");
+    jQuery.validator.addMethod("url_loose", function(value, element) { 
+        return this.optional(element) || /^[a-zA-Z0-9\-\.\~\/\?\&\+\=\:]+$/.test(value); 
+    }, "That URL doesn't look valid to me.");
     jQuery.validator.addMethod("valid_address", function(value, element) { 
         return ($("#id_geolat").val() == "") ?  false : true;
     }, "We couldn't locate that location.");
@@ -95,9 +98,7 @@ $(document).ready(function() {
             email:     { required: true, email: true },
             reason:    { required: true },
             address:   { required: true },
-            geolng:    { valid_address: true },
-            website:   { url: true },
-            video_url: { url: true, youtube: true }
+            geolng:    { valid_address: true }
         }
     });
     $('#add_voice_form').ajaxForm({
@@ -147,7 +148,7 @@ $(document).ready(function() {
             name:      { required: true },
             email:     { required: true, email: true },
             reason:    {  },
-            website:   { url: true }
+            website:   { url_loose: true }
         }
     });
     $('#add_org_form').ajaxForm({

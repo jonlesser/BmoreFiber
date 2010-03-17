@@ -34,7 +34,7 @@ class Supporter(db.Model):
     address     = db.PostalAddressProperty()
     geoloc      = db.GeoPtProperty()
     email       = db.EmailProperty()
-    website     = db.LinkProperty()
+    website     = db.StringProperty()
     priority    = db.IntegerProperty(default=0)
     image       = db.StringProperty()
     video_url   = db.LinkProperty()
@@ -68,7 +68,7 @@ class MainHandler(webapp.RequestHandler):
         # Fetch the priority organizations
         orgs = []
         temp_orgs = []
-        supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True).order("priority")
+        supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True).order("-priority")
         for supporter in supporters:
             if supporter.priority:
                 orgs.append(supporter)
@@ -97,23 +97,11 @@ class MainHandler(webapp.RequestHandler):
         geolng      = float(self.request.get('geolng', 0))
         email       = cgi.escape(self.request.get('email'), True)
         website     = self.request.get('website')
-        video_url   = self.request.get('video_url')
         is_org      = cgi.escape(self.request.get('is_org'), True)
         
-        # Fetch oEmbed response (This is not used at the moment. Using YouTube Direct solution instead.)
-        video_embed = None
-        if video_url:
-            url = "http://www.youtube.com/oembed?url=%s&format=json&maxwidth=%d" % (urllib.quote(video_url), 200)
-            result = urlfetch.fetch(url)
-            if result.status_code == 200:
-                resp = json.loads(result.content)
-                video_embed = resp['html']
-        
         s = Supporter(name=name, reason=reason, is_org=True, image="")
-        if email:       s.email = db.Email(email)
-        if website:     s.website = db.Link(website)
-        if video_url:   s.video_url = db.Link(video_url)
-        if video_embed: s.video_embed = video_embed
+        if email: s.email = db.Email(email)        
+        if website: s.website = website if "http://" in website[:7] else "http://" + website
         
         if is_org == "no":
             s.address = db.PostalAddress(address)
