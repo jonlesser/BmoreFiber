@@ -66,18 +66,30 @@ class MainHandler(webapp.RequestHandler):
         total_supporters = get_count("approved_supporters")
         
         # Fetch the priority organizations
+        orgs_dict = {}
+        hoi_polloi_orgs = []
         orgs = []
-        temp_orgs = []
+        
         supporters = Supporter.all().filter('is_org = ', True).filter('approved = ', True).order("-priority")
         for supporter in supporters:
-            if supporter.priority:
-                orgs.append(supporter)
-            else:
-                temp_orgs.append(supporter)
+            if supporter.priority == 0:
+                hoi_polloi_orgs.append(supporter)
+                continue
+            try:
+                orgs_dict[supporter.priority].append(supporter)
+            except:
+                orgs_dict[supporter.priority] = [supporter]
         
-        # Shuffle the non-priority orgs and combine the orgs
-        shuffle(temp_orgs)
-        orgs += temp_orgs
+        keys = orgs_dict.keys()
+        keys.sort()
+        
+        for key in keys:
+            shuffle(orgs_dict[key])
+            for org in orgs_dict[key]:
+                orgs.append(org)
+        
+        shuffle(hoi_polloi_orgs)
+        orgs += hoi_polloi_orgs
         
         total_orgs = get_count("approved_orgs")
         
