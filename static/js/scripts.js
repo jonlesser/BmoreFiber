@@ -265,7 +265,7 @@ function removeMarkers(){
 // initial call from $(document).ready()), initiates the API call and add the pushpins
 function displayPushPins(options) 
 {   
-    default_params = { limit: "1000", appid: "bmorefiber", markers: "true" };
+    default_params = { limit: "700", appid: "bmorefiber", markers: "true" };
     
     // Show a spinner
     $("#map_spinner").show();

@@ -1,0 +1,98 @@
+/* reset.css */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
+article, aside, dialog, figure, footer, header, hgroup, nav, section {display:block;}
+body {line-height:1.5;}
+table {border-collapse:separate;border-spacing:0;}
+caption, th, td {text-align:left;font-weight:normal;}
+table, td, th {vertical-align:middle;}
+blockquote:before, blockquote:after, q:before, q:after {content:"";}
+blockquote, q {quotes:"" "";}
+a img {border:none;}
+
+/*html { height: 100%; }*/
+body {
+    background-color: #FFF;
+    height:100%;
+}
+#container{
+    width:100%;
+    position:absolute;
+    background-color:#c33;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    min-height: 100%;
+    overflow:hidden;
+}
+
+.advance { position:absolute; top:50%; background-color:#FFF; z-index: 100;}
+#right_advance {right:0;}
+#left_advance {left:0;}
+#site_info {position:absolute;right:200px;bottom:200px;z-index: 100;}
+#top_nav{
+    height:34px;
+    background-color:#FFF;
+    position: absolute;
+    width:100%;
+    top:0;
+    left:0;
+    z-index: 100;
+}
+
+#nav_title, .nav_slide{
+    border-right:1px solid #989898;
+    border-bottom:1px solid #989898;
+    height:100%;
+    float:left;
+    text-align:center;  
+}
+
+#nav_title {}
+.nav_slide {
+    width:34px;
+    background-color:#EFEFEF; 
+    text-decoration:none; 
+    color:#000;
+    z-index: 1000;
+}
+a.nav_slide:hover { background-color:#FFF; }
+
+#slide_thumbnail {
+    position:absolute;
+    width:220px;
+    height:165px;
+    background-color:#FFF;
+    z-index: 98;
+}
+
+#slide_holder {
+    position:absolute;
+    top:40px;
+    left:0px;
+    min-height:600px !important;
+    height:600px;
+    overflow:auto;
+}
+
+.slide {
+    background-color:#F0F;
+/*    width:100%;*/
+    min-height:100%;
+    height:100%;
+    overflow:hidden;
+    float:left;
+    overflow: hidden;
+/*    position:absolute;
+    top:0;
+    left:0;*/
+/*    border:5px solid;*/
+    float:left;
+}
+.slide_title{
+/*    position:absolute;
+    right:0;
+    top:0;
+    z-index: 1000;*/
+/*    float:left;*/
+/*    margin-top:100px;*/
+}
