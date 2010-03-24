@@ -26,9 +26,16 @@ body {
     overflow:hidden;
 }
 
-.advance { position:absolute; top:50%; background-color:#FFF; z-index: 100; height:72px; width:33px;}
-#right_advance {right:0; background: #FFF url(/static/images/wfl/right.png) no-repeat;}
-#left_advance {left:0; background: #FFF url(/static/images/wfl/left.png) no-repeat;}
+.advance { 
+    position:absolute; top:50%; 
+    background-color:#FFF; 
+    z-index: 100; 
+    height:72px; 
+    width:33px;
+    cursor: pointer;
+}
+#right_advance {right:0; background: #FFF url(/static/images/wfl/icon_right.png) no-repeat;}
+#left_advance {left:0; background: #FFF url(/static/images/wfl/icon_left.png) no-repeat;}
 
 #site_info {
     position:absolute;
@@ -41,28 +48,28 @@ body {
 }
 #top_nav{
     height:34px;
-    background-color:#FFF;
+    background-color:#EFEFEF;
     position: absolute;
     width:100%;
     top:0;
     left:0;
     z-index: 100;
-}
-
-.nav_selected{
-    background-color:#000 !important;
-    color:#FFF !important;
+    border-bottom:1px solid #989898;
 }
 
 #nav_title, .nav_slide{
     border-right:1px solid #989898;
-    border-bottom:1px solid #989898;
-    height:100%;
+    padding-top:6px;
+    height:28px;
     float:left;
     text-align:center;  
 }
 
-#nav_title {}
+#nav_title {
+    padding-left:10px;
+    padding-right:10px;
+    background-color:#FFF;
+}
 .nav_slide {
     width:34px;
     background-color:#EFEFEF; 
@@ -71,13 +78,15 @@ body {
     z-index: 1000;
 }
 a.nav_slide:hover { background-color:#FFF; }
+.nav_selected{ background-color:#000 !important; color:#FFF !important; }
 
 #slide_thumbnail {
     position:absolute;
-    width:220px;
-    height:165px;
+    width:208px;
+    height:156px;
     background-color:#FFF;
     z-index: 98;
+    padding:6px;
 }
 
 #slide_holder {
@@ -108,6 +117,7 @@ a.nav_slide:hover { background-color:#FFF; }
     line-height:64px;
     padding:10px 10px 0px 10px;
     background-color:#FFF;
+    overflow:hidden;
 }
 
 .slide_deck{
@@ -116,6 +126,7 @@ a.nav_slide:hover { background-color:#FFF; }
     background-color: #000;
     color: #FFF;
     height:18px;
+    max-width:350px;
     font-size:18px;
     font-style: italic;
     padding:6px 10px 10px 10px;
