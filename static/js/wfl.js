@@ -185,8 +185,8 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
  * We're Feeling Lucky JS
 
  TODO:
- -Generate and place small images the appear on nav hover
- -Support multiple images
+ -Add title to thumbnail overlay
+ -Support multiple images and crossfade between them
  -Add content div
  */
 
