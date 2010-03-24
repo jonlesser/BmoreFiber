@@ -303,7 +303,7 @@ function advance_slide(index){
     $(".nav_slide").removeClass("nav_selected");
     $($(".nav_slide").get(index-1)).addClass("nav_selected");
     
-    g_current_slide = index;
+    g_current_slide = parseInt(index);
 }
 
 function init_advance_controls(){
