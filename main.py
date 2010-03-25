@@ -538,6 +538,34 @@ class ApiSupporters(webapp.RequestHandler):
         else:
             self.response.out.write(json.dumps(resp))
 
+class Wfl(webapp.RequestHandler):
+
+    def get(self):
+        if self.request.get('clearcache') == "1":
+            memcache.flush_all()
+
+        # Check for a hit in memcache
+        html_cache = memcache.get("html_wfl")
+        if html_cache:
+            pass
+            # self.response.out.write(html_cache)
+            # return
+
+        template_values = {}
+        html = template.render('templates/wfl.html', template_values)
+
+        # Cache for 24 hours. (approvals will clear cache)
+        memcache.add("html_wfl", html, 86400)
+
+        self.response.out.write(html)
+
+class TempSite(webapp.RequestHandler):
+
+    def get(self):
+        template_values = {}
+        html = template.render('templates/temp.html', template_values)
+        self.response.out.write(html)
+
 def main():
     urls = [ ('/', MainHandler),  
              ('/admin/csv', CsvOutput), 
@@ -550,6 +578,9 @@ def main():
              ('/admin/initcounters', AdminInitCounters),
              ('/admin/updatecloud', UpdateCloud),
              ('/api/supporters', ApiSupporters),
+             ('/google', TempSite),
+             ('/google/', TempSite),
+             ('/wfl', Wfl),
            ]
     util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
 
