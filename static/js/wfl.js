@@ -166,20 +166,6 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
 **/
 // bavota's code is integrated below
 
-/**
- * jCarouselLite - jQuery plugin to navigate images/any content in a carousel style widget.
- *
- * http://gmarwaha.com/jquery/jcarousellite/
- *
- * Copyright (c) 2007 Ganeshji Marwaha (gmarwaha.com)
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
- *
- * Version: 1.0.1
- */
-(function($){$.fn.jCarouselLite=function(o){o=$.extend({btnPrev:null,btnNext:null,btnGo:null,mouseWheel:false,auto:null,speed:200,easing:null,vertical:false,circular:true,visible:3,start:0,scroll:1,beforeStart:null,afterEnd:null},o||{});return this.each(function(){var b=false,animCss=o.vertical?"top":"left",sizeCss=o.vertical?"height":"width";var c=$(this),ul=$("ul",c),tLi=$("li",ul),tl=tLi.size(),v=o.visible;if(o.circular){ul.prepend(tLi.slice(tl-v-1+1).clone()).append(tLi.slice(0,v).clone());o.start+=v}var f=$("li",ul),itemLength=f.size(),curr=o.start;c.css("visibility","visible");f.css({overflow:"hidden",float:o.vertical?"none":"left"});ul.css({margin:"0",padding:"0",position:"relative","list-style-type":"none","z-index":"1"});c.css({overflow:"hidden",position:"relative","z-index":"2",left:"0px"});var g=o.vertical?height(f):width(f);var h=g*itemLength;var j=g*v;f.css({width:f.width(),height:f.height()});ul.css(sizeCss,h+"px").css(animCss,-(curr*g));c.css(sizeCss,j+"px");if(o.btnPrev)$(o.btnPrev).click(function(){return go(curr-o.scroll)});if(o.btnNext)$(o.btnNext).click(function(){return go(curr+o.scroll)});if(o.btnGo)$.each(o.btnGo,function(i,a){$(a).click(function(){return go(o.circular?o.visible+i:i)})});if(o.mouseWheel&&c.mousewheel)c.mousewheel(function(e,d){return d>0?go(curr-o.scroll):go(curr+o.scroll)});if(o.auto)setInterval(function(){go(curr+o.scroll)},o.auto+o.speed);function vis(){return f.slice(curr).slice(0,v)};function go(a){if(!b){if(o.beforeStart)o.beforeStart.call(this,vis());if(o.circular){if(a<=o.start-v-1){ul.css(animCss,-((itemLength-(v*2))*g)+"px");curr=a==o.start-v-1?itemLength-(v*2)-1:itemLength-(v*2)-o.scroll}else if(a>=itemLength-v+1){ul.css(animCss,-((v)*g)+"px");curr=a==itemLength-v+1?v+1:v+o.scroll}else curr=a}else{if(a<0||a>itemLength-v)return;else curr=a}b=true;ul.animate(animCss=="left"?{left:-(curr*g)}:{top:-(curr*g)},o.speed,o.easing,function(){if(o.afterEnd)o.afterEnd.call(this,vis());b=false});if(!o.circular){$(o.btnPrev+","+o.btnNext).removeClass("disabled");$((curr-o.scroll<0&&o.btnPrev)||(curr+o.scroll>itemLength-v&&o.btnNext)||[]).addClass("disabled")}}return false}})};function css(a,b){return parseInt($.css(a[0],b))||0};function width(a){return a[0].offsetWidth+css(a,'marginLeft')+css(a,'marginRight')};function height(a){return a[0].offsetHeight+css(a,'marginTop')+css(a,'marginBottom')}})(jQuery);
-
 
 /**
  * We're Feeling Lucky JS
@@ -192,36 +178,72 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
 
 
 var g_slide_data = [
-    {
-        title: "THE HILLS ARE ALIVE",
-        deck: "The first slide's deck content",
+	{
+        title: "The Hubble Telescope",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor. Lorem ipsum dolor sit amet consecuteur ipsum dolor.",
         thumbnail: {
-            src: "/static/images/wfl/hubble_thumb.png",
+            src: "/static/images/wfl/img_hubble_thumb.png",
             alt: "Music thumbnail",
             width: "208",
             height: "156"
         },
         images: [
             {
-                src: "/static/images/wfl/hubble.jpg",
+                src: "/static/images/wfl/img_hubble_01.jpg",
                 alt: "The Hubble",
                 width: "1280",
                 height: "982"
             }
         ]
     },
-    {
-        title: "The second slide",
-        deck: "The second slide's deck content",
+	{
+        title: "Robotic Surgery at Hopkins",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor",
         thumbnail: {
-            src: "/static/images/wfl/music_thumb.png",
+            src: "/static/images/wfl/img_telesurgery_thumb.jpg",
             alt: "Music thumbnail",
             width: "208",
             height: "156"
         },
         images: [
             {
-                src: "/static/images/wfl/music_1.jpg",
+                src: "/static/images/wfl/img_telesurgery_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "The Walters Manuscript Collection",
+        deck: "See how The Walters Museum wants to use Gigabit Fiber to share terabytes of manuscript data",
+        thumbnail: {
+            src: "/static/images/wfl/img_walters_thumb.jpg",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_walters_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Top Indie Music Scene",
+        deck: "See how local label 'We Are Free' wants to use Gigabit Fiber.",
+        thumbnail: {
+            src: "/static/images/wfl/img_music_thumb.png",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_music_01.jpg",
                 alt: "Beach House",
                 width: "2000",
                 height: "1333"
@@ -229,20 +251,146 @@ var g_slide_data = [
         ]
     },
     {
-        title: "THIRD SLIDE",
-        deck: "The slide's deck content",
+        title: "The Hubble Telescope",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor",
         thumbnail: {
-            src: "/static/images/wfl/hubble_thumb.png",
+            src: "/static/images/wfl/img_hubble_thumb.png",
             alt: "Music thumbnail",
             width: "208",
             height: "156"
         },
         images: [
             {
-                src: "/static/images/wfl/hubble.jpg",
+                src: "/static/images/wfl/img_hubble_01.jpg",
                 alt: "The Hubble",
                 width: "1280",
                 height: "982"
+            }
+        ]
+    },
+	{
+        title: "Robotic Surgery at Hopkins",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor",
+        thumbnail: {
+            src: "/static/images/wfl/img_telesurgery_thumb.jpg",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_telesurgery_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "The Walters Manuscript Collection",
+        deck: "See how The Walters Museum wants to use Gigabit Fiber to share terabytes of manuscript data",
+        thumbnail: {
+            src: "/static/images/wfl/img_walters_thumb.jpg",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_walters_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Top Indie Music Scene",
+        deck: "See how local label 'We Are Free' wants to use Gigabit Fiber.",
+        thumbnail: {
+            src: "/static/images/wfl/img_music_thumb.png",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_music_01.jpg",
+                alt: "Beach House",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+    {
+        title: "The Hubble Telescope",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor",
+        thumbnail: {
+            src: "/static/images/wfl/img_hubble_thumb.png",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_hubble_01.jpg",
+                alt: "The Hubble",
+                width: "1280",
+                height: "982"
+            }
+        ]
+    },
+	{
+        title: "Robotic Surgery at Hopkins",
+        deck: "Lorem ipsum dolor sit amet consecuteur ipsum dolor",
+        thumbnail: {
+            src: "/static/images/wfl/img_telesurgery_thumb.jpg",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_telesurgery_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "The Walters Manuscript Collection",
+        deck: "See how The Walters Museum wants to use Gigabit Fiber to share terabytes of manuscript data",
+        thumbnail: {
+            src: "/static/images/wfl/img_walters_thumb.jpg",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_walters_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Top Indie Music Scene",
+        deck: "See how local label 'We Are Free' wants to use Gigabit Fiber.",
+        thumbnail: {
+            src: "/static/images/wfl/img_music_thumb.png",
+            alt: "Music thumbnail",
+            width: "208",
+            height: "156"
+        },
+        images: [
+            {
+                src: "/static/images/wfl/img_music_01.jpg",
+                alt: "Beach House",
+                width: "2000",
+                height: "1333"
             }
         ]
     }
@@ -337,9 +485,11 @@ function init_nav(){
 function init_slide_data(slides){
     for (var i=0; i < slides.length; i++) {
         var slide_html = "<div class='slide'>";
-        var nav_html = "<a href='#' class='nav_slide'>" + (i + 1) + "</a>";
+        slide_html += "<div class='slide_text_container'>";
         slide_html += "<div class='slide_title'>" + slides[i].title + "</div>";
         slide_html += "<div class='slide_deck'>" + slides[i].deck + "</div>";
+        slide_html += "<a href='#' class='slide_ask'>Learn More &gt;</a>";
+        slide_html += "</div>";
         
         for (var j=0; j < slides[i].images.length; j++) {
             var img = slides[i].images[j];
@@ -348,7 +498,7 @@ function init_slide_data(slides){
         
         slide_html += "</div>";
         $("#slide_holder").append(slide_html);
-        $("#nav_slides").append(nav_html);
+        $("#nav_slides").append("<a href='#' class='nav_slide'>" + (i + 1) + "</a>");
     };
 }
 
