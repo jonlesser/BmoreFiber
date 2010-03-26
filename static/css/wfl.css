@@ -603,13 +603,13 @@ a.slide_ask:hover{
     background-color:#FFF !important;
 }
 .slide_caption{
+	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
     position:absolute;
     right:18px;
-    bottom:70px;
+    bottom:45px;
     background-color:#000;
     color:#FFF;
     padding:4px 12px 4px 12px;
-    font-size:12px;
     font-weight:bold;
     font-style: italic;
 }
