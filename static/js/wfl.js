@@ -478,26 +478,40 @@ function size_slides(){
     $("#slide_holder").css('width', (winwidth * g_total_slides) + 20).css('height', winheight);
     $(".slide").css('width', winwidth).css('height', winheight);
     $(".slide img").each(function(){
-        var imgwidth = $(this).width();
-    	var imgheight = $(this).height();
-    	
-    	var widthratio = winwidth / imgwidth;
-    	var heightratio = winheight / imgheight;
+        //         var imgwidth = $(this).width();
+        // var imgheight = $(this).height();
+        // 
+        // var widthratio = winwidth / imgwidth;
+        // var heightratio = winheight / imgheight;
+        // 
+        // var widthdiff = heightratio * imgwidth;
+        // var heightdiff = widthratio * imgheight;
+        // 
+        // if(heightdiff>winheight) {
+        //  $(this).css({
+        //      width: winwidth+'px',
+        //      height: heightdiff+'px'
+        //  });
+        // } else {
+        //  $(this).css({
+        //      width: widthdiff+'px',
+        //      height: winheight+'px'
+        //  });     
+        // }
+        
+        // 1) Set width of image to the size of the viewport.
+        // 2) Maintain the aspect ratio of the image to prevent distortion...
 
-    	var widthdiff = heightratio * imgwidth;
-    	var heightdiff = widthratio * imgheight;
+        // but if the height of the image becomes smaller than the height of the viewport
+        // we will have an empty black strip at the bottom. To prevent this, if the height of the image
+        // is smaller than the height of the viewport, vertically scale image to fit snug in viewport.
+        
+        var aspectRatio = this.naturalWidth / this.naturalHeight;
+        $(this).width(winwidth);
 
-    	if(heightdiff>winheight) {
-    		$(this).css({
-    			width: winwidth+'px',
-    			height: heightdiff+'px'
-    		});
-    	} else {
-    		$(this).css({
-    			width: widthdiff+'px',
-    			height: winheight+'px'
-    		});		
-    	}
+        var newHeight = winwidth / aspectRatio;
+        newHeight = (newHeight > winheight)? newHeight : winheight;
+        $(this).height(newHeight);
     });
 }
 
