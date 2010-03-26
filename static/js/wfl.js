@@ -264,14 +264,14 @@ function onImgComplete() {
     if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
 
         // Show images corresponding top nav button
-        $($('a.nav_slide')[g_loaded]).fadeIn('slow');
+        // $($('a.nav_slide')[g_loaded]).fadeIn('slow'); // This line working in IE
         
         // First image loaded. Show slide.
         if(g_loaded === 0){ advance_slide(1); }
 
         // Last image loaded. Show
         var slideCount = $('.nav_slide').length;
-        if(g_loaded === (slideCount - 1)){ $('a#nav_map').fadeIn('slow'); }
+        // if(g_loaded === (slideCount - 1)){ $('a#nav_map').fadeIn('slow'); }  // This line working in IE
 
         
         // increment the counter and make the call to load another image
@@ -297,11 +297,6 @@ $(document).ready(function() {
     size_slides();
     init_nav();
     init_advance_controls();
-  
-    // HACK: Small delay before showing title in top left. Prevents typekit jarring change in type
-    setTimeout ( function(){
-        $('#top_nav h1').fadeIn('slow');
-    }, 500 );
     
     // When the window is resized, update the slide size and reposition them
     $(window).resize(function(){
@@ -468,6 +463,8 @@ function init_slide_data(slides){
         nav_html += "<a href='#' class='nav_slide'>" + (i + 1) + "</a>";
     };
     $("#nav_slides").append(nav_html);
+    $(".nav_slide").fadeIn("slow");
+    $("#nav_map").fadeIn("slow");
     $("#slide_holder").append(slide_html);
 }
 
@@ -499,13 +496,12 @@ function size_slides(){
         //  });     
         // }
         
+        // ** Fix from Lokesh **
         // 1) Set width of image to the size of the viewport.
         // 2) Maintain the aspect ratio of the image to prevent distortion...
-
         // but if the height of the image becomes smaller than the height of the viewport
         // we will have an empty black strip at the bottom. To prevent this, if the height of the image
         // is smaller than the height of the viewport, vertically scale image to fit snug in viewport.
-        
         var aspectRatio = this.naturalWidth / this.naturalHeight;
         $(this).width(winwidth);
 

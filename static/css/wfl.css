@@ -499,7 +499,6 @@ h1 {
 	font-weight:bold;
 	font-style: italic;
 	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
-	display: none;
 }
 /*Google text*/
 h1 span {
@@ -513,7 +512,7 @@ h1 span {
 	z-index: 1000;
 	font-weight:bold;
 	font-style: italic;
-	display: none;
+    display: none; 
 }
 a.nav_slide:hover, a#nav_map:hover {
 	background-color:#FFF;
