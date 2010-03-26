@@ -396,7 +396,7 @@ a img {
 }
 /*html { height: 100%; }*/
 body {
-	background-color: #FFF;
+	background-color: #000;
 	height:100%;
 	font-family: "pill-gothic-300mg-1", "pill-gothic-300mg-2", Helvetica, Arial, sans-serif;
 }
@@ -404,7 +404,7 @@ body {
 	width:100%;
 	/*  min-width: 960px;*/
 	position:absolute;
-	background-color:#c33;
+	background-color:#000;
 	top: 0;
 	left: 0;
 	z-index: 1;
@@ -490,7 +490,7 @@ h1 span {
 	font-weight:bold;
 	font-style: italic;
 }
-a.nav_slide:hover {
+a.nav_slide:hover, a#nav_map:hover {
 	background-color:#FFF;
 }
 .nav_selected {
@@ -507,14 +507,25 @@ a.nav_slide:hover {
 #slide_thumbnail img{
     margin:6px 6px 0px 6px;
 }
+#slide_thumbnail span {
+    position:absolute;
+    background-color:#FFF;
+    bottom:18px;
+    left:18px;
+    padding: 0 6px;
+    max-width:172px;
+    text-transform: uppercase;
+    
+}
 #slide_holder {
 	position:absolute;
 	top:34px;
 	left:0px;
 	overflow:hidden;
+    display:none;
 }
 .slide {
-	background-color:#F0F;
+	background-color:#000;
 	overflow:hidden;
 	float:left;
 	position:relative;

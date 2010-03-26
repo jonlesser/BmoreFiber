@@ -210,14 +210,70 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
 **/
 // bavota's code is integrated below
 
+/*
+* taken from http://www.filamentgroup.com/examples/preloadImages/scripts/preloadCssImages.jQuery_v5.js
+* jQuery-Plugin "preloadCssImages"
+* by Scott Jehl, scott@filamentgroup.com
+* http://www.filamentgroup.com
+* Copyright (c) 2008 Filament Group, Inc
+* Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL (filamentgroup.com/examples/gpl-license.txt) licenses.
+*/
+var imgUrls = [];
+var loaded = 0;
+var settings = jQuery.extend({
+    statusTextEl: null,
+    statusBarEl: null,
+    errorDelay: 999, // handles 404-Errors in IE
+    simultaneousCacheLoading: 2
+}, settings);
+
+// main preload method
+function preloadImages() {
+    
+    // flatten out the list of images into a single array for the async call
+    for (var i = 0; i < g_slide_data.length; i++) {
+        // add slide thumbnail
+        imgUrls.push(g_slide_data[i].thumbnail.src);
+        // loading frame images is not necessary, loaded via hidden divs
+        // for (var j = 0; j < g_slide_data[i].images.length; j++) {
+        //     imgUrls.push(g_slide_data[i].images[j].src);
+        // }
+    }
+    // call the first image load...
+    loadImgs();
+}
+
+function loadImgs() {
+    //only load 1 image at the same time / most browsers can only handle 2 http requests, 1 should remain for user-interaction (Ajax, other images, normal page requests...)
+    // otherwise set simultaneousCacheLoading to a higher number for simultaneous downloads
+    if (imgUrls && imgUrls.length && imgUrls[loaded]) {
+        var img = new Image(); //new img obj
+        img.src = imgUrls[loaded]; //set src either absolute or rel to css dir
+        if (!img.complete) {
+            jQuery(img).bind('error load onreadystatechange', onImgComplete);
+        } else {
+            onImgComplete();
+        }
+        errorTimer = setTimeout(onImgComplete, settings.errorDelay); // handles 404-Errors in IE
+    }
+}
+// handle image completed event
+function onImgComplete() {
+    clearTimeout(errorTimer);
+    if (imgUrls && imgUrls.length && imgUrls[loaded]) {
+        // increment the counter and make the call to load another image
+        loaded++;
+        loadImgs();
+    }
+}
+
+
 
 /**
  * We're Feeling Lucky JS
 
  TODO:
- -Add title to thumbnail overlay
  -Support multiple images and crossfade between them
- -Prevent thumbnail from falling off screen
  */
 
 
@@ -238,19 +294,21 @@ var g_slide_data = [
                 alt: "The Hubble",
                 width: "1280",
                 height: "982"
-            },
-            {
-                src: "/static/images/wfl/img_telesurgery_01.jpg",
-                alt: "Walters",
-                width: "2000",
-                height: "1333"
-            },
-            {
-                src: "/static/images/wfl/img_walters_01.jpg",
-                alt: "Walters",
-                width: "2000",
-                height: "1333"
             }
+            // Uncomment these lines to load additional images into a slide. Transitioning between images is still a todo.
+            // ,
+            // {
+            //     src: "/static/images/wfl/img_telesurgery_01.jpg",
+            //     alt: "Walters",
+            //     width: "2000",
+            //     height: "1333"
+            // },
+            // {
+            //     src: "/static/images/wfl/img_walters_01.jpg",
+            //     alt: "Walters",
+            //     width: "2000",
+            //     height: "1333"
+            // }
         ]
     },
 	{
@@ -465,8 +523,10 @@ var g_slide_data = [
 ];
 var g_current_slide = 1;
 var g_total_slides = g_slide_data.length;
+var g_cache = [];
 
 $(document).ready(function() {
+    preloadImages();
     init_slide_data(g_slide_data);
     size_slides();
     init_nav();
@@ -505,6 +565,9 @@ $(document).ready(function() {
 		'overlayOpacity' : '.7',
 		'overlayColor'   : '#000'
 	});
+	
+	// Preload thumbnails
+    // preload_images();
 });
 
 function advance_slide(index){
@@ -525,8 +588,12 @@ function advance_slide(index){
     }
     
     // Move the requested slide
-    var left_pos = (index - 1) * $(window).width() * -1;
-    $("#slide_holder").animate({left:left_pos}, {duration:300});
+    var slide = $("#slide_holder");
+    slide.fadeOut('fast', function(){
+        var left_pos = (index - 1) * $(window).width() * -1;
+        // $("#slide_holder").animate({left:left_pos}, {duration:300});
+        $("#slide_holder").css("left", left_pos);
+    });
     
     // Set location hash for easy bookmarking and link sharing (not working well)
     // location.hash = index > 1 ? index : "";
@@ -540,6 +607,8 @@ function advance_slide(index){
     
     // Set the current slide global to the new slide
     g_current_slide = parseInt(index);
+    
+    slide.fadeIn('slow');
 }
 
 function init_advance_controls(){
@@ -568,7 +637,11 @@ function init_nav(){
             var left = $(this).offset().left;
             var bottom = $(this).offset().top + 34;
             var win_width = $(window).width();
-            $("body").append("<div id='slide_thumbnail'><img src='"+thumb.src+"' width='"+thumb.width+"' height='"+thumb.height+"'/></div>");
+            var thumb_html = "<div id='slide_thumbnail'>";
+            thumb_html += "<img src='"+thumb.src+"' width='"+thumb.width+"' height='"+thumb.height+"'/>";
+            thumb_html += "<span>" + g_slide_data[index-1].title + "<span>";
+            thumb_html += "</div>";
+            $("body").append(thumb_html);
             
             var thumb_width = $("#slide_thumbnail").width();
             if (left + thumb_width > win_width){
@@ -584,8 +657,10 @@ function init_nav(){
 }
 
 function init_slide_data(slides){
+    var slide_html = "";
+    var nav_html = "";
     for (var i=0; i < slides.length; i++) {
-        var slide_html = "<div class='slide'>";
+        slide_html += "<div class='slide'>";
         slide_html += "<div class='slide_text_container'>";
         slide_html += "<div class='slide_title'>" + slides[i].title + "</div>";
         slide_html += "<div class='slide_deck'>" + slides[i].deck + "</div>";
@@ -598,9 +673,10 @@ function init_slide_data(slides){
         };
         
         slide_html += "</div>";
-        $("#slide_holder").append(slide_html);
-        $("#nav_slides").append("<a href='#' class='nav_slide'>" + (i + 1) + "</a>");
+        nav_html += "<a href='#' class='nav_slide'>" + (i + 1) + "</a>";
     };
+    $("#nav_slides").append(nav_html);
+    $("#slide_holder").append(slide_html);
 }
 
 function size_slides(){
