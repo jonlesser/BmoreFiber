@@ -238,6 +238,18 @@ var g_slide_data = [
                 alt: "The Hubble",
                 width: "1280",
                 height: "982"
+            },
+            {
+                src: "/static/images/wfl/img_telesurgery_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
+            },
+            {
+                src: "/static/images/wfl/img_walters_01.jpg",
+                alt: "Walters",
+                width: "2000",
+                height: "1333"
             }
         ]
     },
@@ -547,8 +559,7 @@ function init_nav(){
             
             var thumb_width = $("#slide_thumbnail").width();
             if (left + thumb_width > win_width){
-                // This is still a work in progress. Some problems with padding not being included in measurements
-                // left = left - thumb_width + $(this).width();
+                left = left - thumb_width + $(this).width() + 2; // This extra 2 is pretty hacky, but hey Baltimore's got grit
             }
             
             $("#slide_thumbnail").css('top', bottom).css('left', left);

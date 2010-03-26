@@ -451,13 +451,22 @@ body {
 	z-index: 100;
 	border-bottom:1px solid black;
 }
-h1, .nav_slide {
+h1, .nav_slide, #nav_map{
+	background-color:#EFEFEF;
 	border-right:1px solid #989898;
 	border-left: 1px solid white;
 	padding-top:6px;
 	height:28px;
 	float:left;
 	text-align:center;
+}
+#nav_map { 
+	z-index: 1000;
+	font-weight: bold;
+	font-style: italic;
+    width:50px;
+    color:#000;
+    text-decoration:none;
 }
 h1 {
 	text-transform: uppercase;
@@ -492,11 +501,11 @@ a.nav_slide:hover {
 }
 #slide_thumbnail {
 	position:absolute;
-	width:208px;
-	height:156px;
 	background-color:#FFF;
 	z-index: 98;
-	padding:6px;
+}
+#slide_thumbnail img{
+    margin:6px 6px 0px 6px;
 }
 #slide_holder {
 	position:absolute;
@@ -551,6 +560,11 @@ a.nav_slide:hover {
 	font-weight:bold;
 	clear:none;
 }
+
+#slide_image_control{
+    
+}
+
 /* LIGHTBOX STYLES */
 /* ---------------------------------------------------- */
 
