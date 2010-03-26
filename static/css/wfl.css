@@ -491,6 +491,7 @@ h1, .nav_slide, #nav_map{
 }
 h1 {
 	/*text-transform: uppercase;*/
+	border-left:none;
 	letter-spacing: .5px;
 	padding-left:15px;
 	padding-right:15px;
@@ -524,9 +525,9 @@ a.nav_slide:hover, a#nav_map:hover {
 	font-weight: 300 !important;
 }
 #slide_thumbnail {
-	position:absolute;
-	background-color:#FFF;
-	z-index: 98;
+    position:absolute;
+    background-color:#FFF;
+    z-index: 1200;
 }
 #slide_thumbnail img{
     margin:6px 6px 0px 6px;
@@ -534,14 +535,14 @@ a.nav_slide:hover, a#nav_map:hover {
 #slide_thumbnail span {
     position:absolute;
     background-color:#FFF;
-	font-size: 16px;
-	line-height: 18px;
+    font-size: 16px;
+    line-height: 18px;
     bottom:18px;
     left:18px;
     padding: 6px 8px 3px 6px;
     max-width:172px;
-	font-weight: bold;
-	font-style: italic;
+    font-weight: bold;
+    font-style: italic;
     text-transform: uppercase;
 }
 #slide_holder {

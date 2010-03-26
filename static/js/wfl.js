@@ -450,9 +450,9 @@ function init_slide_data(slides){
         slide_html += "<div class='slide'>";
         slide_html += "<div class='slide_text_container'>";
         slide_html += "<div class='slide_title'>" + slides[i].title + "</div>";
-        slide_html += "<div class='slide_deck'>" + slides[i].deck + "</div>";
+        slide_html += "<div><div class='slide_deck'>" + slides[i].deck + "</div>";
         slide_html += "<a href='" + slides[i].content + "' class='slide_ask'>Learn More &raquo;</a>";
-        slide_html += "</div>";
+        slide_html += "</div></div>";
         
         for (var j=0; j < slides[i].images.length; j++) {
             var img = slides[i].images[j];
