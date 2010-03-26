@@ -452,7 +452,7 @@ a.advance:hover{
 #site_info a{
     color: #FFF;
 }
-#site_info a:hover{
+#site_info span a:hover{
     color:#000;
     background-color:#FF0;
 /*    padding:3px;*/
@@ -602,9 +602,18 @@ a.nav_slide:hover, a#nav_map:hover {
 a.slide_ask:hover{
     background-color:#FFF !important;
 }
-#slide_image_control{
-    
+.slide_caption{
+    position:absolute;
+    right:18px;
+    bottom:70px;
+    background-color:#000;
+    color:#FFF;
+    padding:4px 12px 4px 12px;
+    font-size:12px;
+    font-weight:bold;
+    font-style: italic;
 }
+
 
 /* LIGHTBOX STYLES */
 /* ---------------------------------------------------- */

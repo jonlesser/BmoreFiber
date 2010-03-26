@@ -457,6 +457,7 @@ function init_slide_data(slides){
         for (var j=0; j < slides[i].images.length; j++) {
             var img = slides[i].images[j];
             slide_html += "<img src='" + img.src + "' width='" + img.width + "' height='" + img.height + "' alt='" + img.alt + "'/>";
+            slide_html += "<div class='slide_caption'>" + img.alt + "</div>";
         };
         
         slide_html += "</div>";
