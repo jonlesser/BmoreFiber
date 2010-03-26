@@ -459,23 +459,29 @@ h1, .nav_slide, #nav_map{
 	height:28px;
 	float:left;
 	text-align:center;
+	
 }
 #nav_map { 
 	z-index: 1000;
-	font-weight: bold;
+	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
+	font-weight: regular;
 	font-style: italic;
-    width:50px;
-    color:#000;
+    /*width:50px;*/
+	padding-left: 15px;
+	padding-right: 15px;
+    color:#666;
     text-decoration:none;
 }
 h1 {
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	letter-spacing: .5px;
 	padding-left:15px;
 	padding-right:15px;
-	background-color:#FFF;
+	background-color:black;
+	color: #efefef;
 	font-weight:bold;
 	font-style: italic;
+	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
 }
 /*Google text*/
 h1 span {
@@ -494,9 +500,9 @@ a.nav_slide:hover, a#nav_map:hover {
 	background-color:#FFF;
 }
 .nav_selected {
-	background-color:#000 !important;
-	color:#ccc !important;
-	border-left: 1px solid black !important;
+	background-color:#ccc !important;
+	color: #333 !important;
+	border-left: 1px solid #ccc !important;
 	font-weight: 300 !important;
 }
 #slide_thumbnail {
@@ -510,10 +516,14 @@ a.nav_slide:hover, a#nav_map:hover {
 #slide_thumbnail span {
     position:absolute;
     background-color:#FFF;
+	font-size: 16px;
+	line-height: 18px;
     bottom:18px;
     left:18px;
-    padding: 0 6px;
+    padding: 6px 8px 3px 6px;
     max-width:172px;
+	font-weight: bold;
+	font-style: italic;
     text-transform: uppercase;
 }
 #slide_holder {
@@ -640,6 +650,13 @@ a.nav_slide:hover, a#nav_map:hover {
 	font-style: italic;
 	font-weight: bold;
 }
+
+.content-column h4 {
+	font-size: 21px;
+	margin-bottom: 0px;
+	font-style: italic;
+	font-weight: bold;
+}
 .content-column p {
 	margin: 15px 0px 15px 0px;
 	padding: 0px;
@@ -648,10 +665,10 @@ a.nav_slide:hover, a#nav_map:hover {
 }
 .content-column .intro {
 	margin: 0px 0px 15px 0px;
-	font-size: 18px;
-	line-height: 24px;
+	/*font-size: 16px;
+	line-height: 22px;
 	font-style:italic;
-	font-weight: regular;
+	font-weight: regular;*/
 }
 .content-column a:link, .content-column a:visited {
 	color: rgb(28, 148, 196);
