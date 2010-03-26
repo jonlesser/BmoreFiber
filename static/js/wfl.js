@@ -480,17 +480,30 @@ $(document).ready(function() {
         $("#slide_holder").css("left", left_pos);
     });
     
+    // Setup a fancybox for the "learn more" links
     $('.slide_ask').fancybox({
         'width'          : '1200px',
         'height'         : '75%',
-        'autoScale'          : true,
-		'transitionIn'		: 'elastic',
-		'transitionOut'		: 'elastic',
-        'type'              : 'ajax',
-		'autoDimensions'    : true,
-		'overlayOpacity'    : '.7',
-		'overlayColor'      : '#000',
-        'onClose': size_slides
+        'autoScale'      : true,
+		'transitionIn'	 : 'elastic',
+		'transitionOut'	 : 'elastic',
+        'type'           : 'ajax',
+		'autoDimensions' : true,
+		'overlayOpacity' : '.7',
+		'overlayColor'   : '#000'
+	});
+	
+	// Setup a fancy box for the map
+	$('#nav_map').fancybox({
+        'width'          : '90%',
+        'height'         : '90%',
+        'autoScale'      : true,
+		'transitionIn'	 : 'elastic',
+		'transitionOut'	 : 'elastic',
+        'type'           : 'iframe',
+		'autoDimensions' : true,
+		'overlayOpacity' : '.7',
+		'overlayColor'   : '#000'
 	});
 });
 
