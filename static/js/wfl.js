@@ -221,6 +221,7 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
 var g_imgUrls = [];
 var g_loaded = 0;
 var errorTimer = 0;
+var slidesLoaded = 0;
 var settings = jQuery.extend({
     statusTextEl: null,
     statusBarEl: null,
@@ -228,9 +229,11 @@ var settings = jQuery.extend({
     simultaneousCacheLoading: 2
 }, settings);
 
+
+
 // main preload method
 function preloadImages() {
-    
+
     // flatten out the list of images into a single array for the async call
     for (var i = 0; i < g_slide_data.length; i++) {
         // add slide thumbnail
@@ -243,24 +246,34 @@ function preloadImages() {
     loadImgs();
 }
 
+
 function loadImgs() {
     //only load 1 image at the same time / most browsers can only handle 2 http requests, 1 should remain for user-interaction (Ajax, other images, normal page requests...)
     // otherwise set simultaneousCacheLoading to a higher number for simultaneous downloads
     if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
         var img = new Image(); //new img obj
         img.src = g_imgUrls[g_loaded]; //set src either absolute or rel to css dir
-        if (!img.complete) {
-            jQuery(img).bind('error load onreadystatechange', onImgComplete);
-        } else {
+        img.onload = function(){
             onImgComplete();
         }
-        errorTimer = setTimeout(onImgComplete, settings.errorDelay); // handles 404-Errors in IE
     }
 }
 // handle image completed event
 function onImgComplete() {
     clearTimeout(errorTimer);
     if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
+
+        // Show images corresponding top nav button
+        $($('a.nav_slide')[g_loaded]).fadeIn('slow');
+        
+        // First image loaded. Show slide.
+        if(g_loaded === 0){ advance_slide(1); }
+
+        // Last image loaded. Show
+        var slideCount = $('.nav_slide').length;
+        if(g_loaded === (slideCount - 1)){ $('a#nav_map').fadeIn('slow'); }
+
+        
         // increment the counter and make the call to load another image
         g_loaded++;
         loadImgs();
@@ -284,10 +297,29 @@ $(document).ready(function() {
     size_slides();
     init_nav();
     init_advance_controls();
-    advance_slide(1);
+  
+    // HACK: Small delay before showing title in top left. Prevents typekit jarring change in type
+    setTimeout ( function(){
+        $('#top_nav h1').fadeIn('slow');
+    }, 500 );
     
     // When the window is resized, update the slide size and reposition them
     $(window).resize(function(){
+
+        // Resizing Nav Slide Numbers
+        // If window size is less than the width of the topnav
+        // shrink the width of the nav slide numbers to prevent them from dorpping to next line.
+        var windowWidth = $(window).width();
+        var topNavWidth = 894; // hardcoded for time being, the typekit resizing is making things tricky
+        var navSlideWidth = 37; // these are the small slide numbers in the top nav with the hover acitons
+        var slideCount = $('.nav_slide').length;
+        
+        if( windowWidth < topNavWidth){
+            $('.nav_slide').width( navSlideWidth - ((topNavWidth - windowWidth) / slideCount));
+        } else {
+            $('.nav_slide').width( navSlideWidth);
+        }
+
         size_slides();
         var left_pos = (g_current_slide - 1) * $(window).width() * -1;
         $("#slide_holder").css("left", left_pos);
@@ -323,13 +355,16 @@ $(document).ready(function() {
 });
 
 function advance_slide(index){
+    
+    slidesLoaded++;
+    
     // Lightly error check the index
     if(!index){
         return;
     }
     
     // Make sure we're showing the right left and right controls
-    $(".advance").show();
+    $(".advance").fadeIn('slow');
     if (index >= g_total_slides) {
         index = g_total_slides;
         $("#right_advance").hide();
@@ -358,8 +393,13 @@ function advance_slide(index){
     // Set the current slide global to the new slide
     g_current_slide = parseInt(index);
     
-    // Fade the slide holder back in
-    $("#slide_holder").fadeIn('slow');
+    // Fade the slide holder back in.
+    // If first slide, page loading up, fade in slow for dramatic effect.
+    if(slidesLoaded === 1){
+        $("#slide_holder").fadeIn(4000);        
+    } else {
+        $("#slide_holder").fadeIn('slow');        
+    }
 }
 
 function init_advance_controls(){
@@ -388,11 +428,12 @@ function init_nav(){
             var left = $(this).offset().left;
             var bottom = $(this).offset().top + 34;
             var win_width = $(window).width();
-            var thumb_html = "<div id='slide_thumbnail'>";
+            var thumb_html = "<div id='slide_thumbnail' style='display: none'>";
             thumb_html += "<img src='"+thumb.src+"' width='"+thumb.width+"' height='"+thumb.height+"'/>";
             thumb_html += "<span>" + g_slide_data[index-1].title + "<span>";
             thumb_html += "</div>";
             $("body").append(thumb_html);
+            $('#slide_thumbnail').fadeIn('fast');
             
             var thumb_width = $("#slide_thumbnail").width();
             if (left + thumb_width > win_width){

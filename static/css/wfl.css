@@ -423,13 +423,16 @@ body {
 #right_advance {
 	right:0;
 	background: #efefef url(/static/images/wfl/icon_arrow_right.png) no-repeat center center;
+	display: none;
 }
 #left_advance {
 	left:0;
 	background: #efefef url(/static/images/wfl/icon_arrow_left.png) no-repeat center center;
+	display: none;
 }
 a.advance:hover{
     background-color:#FFF !important;
+    display: none;
 }
 #site_info {
 	position:absolute;
@@ -484,6 +487,7 @@ h1, .nav_slide, #nav_map{
 	padding-right: 15px;
     color:#666;
     text-decoration:none;
+    display: none;
 }
 h1 {
 	/*text-transform: uppercase;*/
@@ -495,6 +499,7 @@ h1 {
 	font-weight:bold;
 	font-style: italic;
 	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
+	display: none;
 }
 /*Google text*/
 h1 span {
@@ -508,6 +513,7 @@ h1 span {
 	z-index: 1000;
 	font-weight:bold;
 	font-style: italic;
+	display: none;
 }
 a.nav_slide:hover, a#nav_map:hover {
 	background-color:#FFF;
@@ -544,9 +550,10 @@ a.nav_slide:hover, a#nav_map:hover {
 	top:34px;
 	left:0px;
 	overflow:hidden;
+	display: none;
 }
 .slide {
-	background-color:#000;
+    background-color:#000;
 	overflow:hidden;
 	float:left;
 	position:relative;
