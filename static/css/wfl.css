@@ -515,14 +515,12 @@ a.nav_slide:hover, a#nav_map:hover {
     padding: 0 6px;
     max-width:172px;
     text-transform: uppercase;
-    
 }
 #slide_holder {
 	position:absolute;
 	top:34px;
 	left:0px;
 	overflow:hidden;
-    display:none;
 }
 .slide {
 	background-color:#000;

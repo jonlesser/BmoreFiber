@@ -218,8 +218,9 @@ var Typekit=(function(h){var A={ua:function(G){if(G){for(var H=0;H<this.matchers
 * Copyright (c) 2008 Filament Group, Inc
 * Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL (filamentgroup.com/examples/gpl-license.txt) licenses.
 */
-var imgUrls = [];
-var loaded = 0;
+var g_imgUrls = [];
+var g_loaded = 0;
+var errorTimer = 0;
 var settings = jQuery.extend({
     statusTextEl: null,
     statusBarEl: null,
@@ -233,11 +234,10 @@ function preloadImages() {
     // flatten out the list of images into a single array for the async call
     for (var i = 0; i < g_slide_data.length; i++) {
         // add slide thumbnail
-        imgUrls.push(g_slide_data[i].thumbnail.src);
-        // loading frame images is not necessary, loaded via hidden divs
-        // for (var j = 0; j < g_slide_data[i].images.length; j++) {
-        //     imgUrls.push(g_slide_data[i].images[j].src);
-        // }
+        g_imgUrls.push(g_slide_data[i].thumbnail.src);
+        for (var j = 0; j < g_slide_data[i].images.length; j++) {
+            g_imgUrls.push(g_slide_data[i].images[j].src);
+        }
     }
     // call the first image load...
     loadImgs();
@@ -246,9 +246,9 @@ function preloadImages() {
 function loadImgs() {
     //only load 1 image at the same time / most browsers can only handle 2 http requests, 1 should remain for user-interaction (Ajax, other images, normal page requests...)
     // otherwise set simultaneousCacheLoading to a higher number for simultaneous downloads
-    if (imgUrls && imgUrls.length && imgUrls[loaded]) {
+    if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
         var img = new Image(); //new img obj
-        img.src = imgUrls[loaded]; //set src either absolute or rel to css dir
+        img.src = g_imgUrls[g_loaded]; //set src either absolute or rel to css dir
         if (!img.complete) {
             jQuery(img).bind('error load onreadystatechange', onImgComplete);
         } else {
@@ -260,22 +260,19 @@ function loadImgs() {
 // handle image completed event
 function onImgComplete() {
     clearTimeout(errorTimer);
-    if (imgUrls && imgUrls.length && imgUrls[loaded]) {
+    if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
         // increment the counter and make the call to load another image
-        loaded++;
+        g_loaded++;
         loadImgs();
     }
 }
 
 
 
-/**
+/***********************************************************************************************************************
  * We're Feeling Lucky JS
-
- TODO:
- -Support multiple images and crossfade between them
+ *
  */
-
 
 var g_slide_data = [
 	{
@@ -565,9 +562,6 @@ $(document).ready(function() {
 		'overlayOpacity' : '.7',
 		'overlayColor'   : '#000'
 	});
-	
-	// Preload thumbnails
-    // preload_images();
 });
 
 function advance_slide(index){
@@ -587,11 +581,9 @@ function advance_slide(index){
         $("#left_advance").hide();
     }
     
-    // Move the requested slide
-    var slide = $("#slide_holder");
-    slide.fadeOut('fast', function(){
+    // Fade out the slide holder and then move to the selected slide
+    $("#slide_holder").fadeOut('fast', function(){
         var left_pos = (index - 1) * $(window).width() * -1;
-        // $("#slide_holder").animate({left:left_pos}, {duration:300});
         $("#slide_holder").css("left", left_pos);
     });
     
@@ -608,7 +600,8 @@ function advance_slide(index){
     // Set the current slide global to the new slide
     g_current_slide = parseInt(index);
     
-    slide.fadeIn('slow');
+    // Fade the slide holder back in
+    $("#slide_holder").fadeIn('slow');
 }
 
 function init_advance_controls(){
