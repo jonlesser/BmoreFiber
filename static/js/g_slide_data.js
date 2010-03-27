@@ -183,5 +183,43 @@ var g_slide_data = [
                 height: "1333"
             }
         ]
+    },
+	{
+        title: "Proximity to Washington DC",
+        deck: "There's a reason it's called the Baltimore-Washington Corridor...",
+        thumbnail: {
+            src: "/static/images/wfl/img_proximity_washington_thumb.jpg",
+            alt: "Proximity to Washington",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/proximity_washington.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_proximity_washington_01.jpg",
+                alt: "Proximity to Washington",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Digital Object Architecture",
+        deck: "New Ways of Archiving and Retrieving Municipal Data",
+        thumbnail: {
+            src: "/static/images/wfl/img_doa_thumb.jpg",
+            alt: "Digital Object Architecture",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/doa.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_doa_01.jpg",
+                alt: "Digital Object Architecture",
+                width: "2000",
+                height: "1333"
+            }
+        ]
     }
 ];

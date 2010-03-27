@@ -535,14 +535,14 @@ a.nav_slide:hover, a#nav_map:hover {
 #slide_thumbnail span {
     position:absolute;
     background-color:#FFF;
-    font-size: 16px;
-    line-height: 18px;
+	font-size: 16px;
+	line-height: 18px;
     bottom:18px;
     left:18px;
     padding: 6px 8px 3px 6px;
     max-width:172px;
-    font-weight: bold;
-    font-style: italic;
+	font-weight: bold;
+	font-style: italic;
     text-transform: uppercase;
 }
 #slide_holder {

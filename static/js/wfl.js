@@ -425,7 +425,7 @@ function init_nav(){
             var win_width = $(window).width();
             var thumb_html = "<div id='slide_thumbnail' style='display: none'>";
             thumb_html += "<img src='"+thumb.src+"' width='"+thumb.width+"' height='"+thumb.height+"'/>";
-            thumb_html += "<span>" + g_slide_data[index-1].title + "<span>";
+            thumb_html += "<span>" + g_slide_data[index-1].title + "</span>";
             thumb_html += "</div>";
             $("body").append(thumb_html);
             $('#slide_thumbnail').fadeIn('fast');
