@@ -12,7 +12,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_hubble_01.jpg",
-                alt: "Hubble",
+                alt: "Large Magellanic Cloud",
                 width: "2000",
                 height: "1333"
             }
@@ -31,7 +31,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_conduits_01.jpg",
-                alt: "Conduits",
+                alt: "Baltimore Public Works Museum",
                 width: "2000",
                 height: "1333"
             }
@@ -42,7 +42,7 @@ var g_slide_data = [
         deck: "Sharing ancient writings with the world through Google fiber",
         thumbnail: {
             src: "/static/images/wfl/img_walters_thumb.jpg",
-            alt: "Serious Games",
+            alt: "Walters",
             width: "208",
             height: "139"
         },
@@ -50,7 +50,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_walters_01.jpg",
-                alt: "Serious Games",
+                alt: "Koran, 18th CE",
                 width: "2000",
                 height: "1333"
             }
@@ -69,7 +69,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_telesurgery_01.jpg",
-                alt: "Telesurgery",
+                alt: "Johns Hopkins Robotic Surgery Lab",
                 width: "2000",
                 height: "1333"
             }
@@ -121,7 +121,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_lightning_cloud_01.jpg",
-                alt: "Cloud",
+                alt: "Distributed Computing Visualization",
                 width: "2000",
                 height: "1333"
             }
@@ -140,7 +140,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_breakaway_01.jpg",
-                alt: "Serious Games",
+                alt: "Breakaway Game: Patient in MEV",
                 width: "2000",
                 height: "1333"
             }
@@ -159,7 +159,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_music_02.jpg",
-                alt: "Music",
+                alt: "Ponytail",
                 width: "2000",
                 height: "1333"
             }
@@ -178,7 +178,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_medical_images_01.jpg",
-                alt: "Teleradiology",
+                alt: "3D Heart Scans",
                 width: "2000",
                 height: "1333"
             }
@@ -197,7 +197,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_proximity_washington_01.jpg",
-                alt: "Proximity to Washington",
+                alt: "Baltimore/Washington Metro",
                 width: "2000",
                 height: "1333"
             }
@@ -216,7 +216,7 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_doa_01.jpg",
-                alt: "Digital Object Architecture",
+                alt: "Antiquated Paper Archives",
                 width: "2000",
                 height: "1333"
             }
