@@ -578,8 +578,8 @@ def main():
              ('/admin/initcounters', AdminInitCounters),
              ('/admin/updatecloud', UpdateCloud),
              ('/api/supporters', ApiSupporters),
-             ('/google', TempSite),
-             ('/google/', TempSite),
+             ('/google', Wfl),
+             ('/google/', Wfl),
              ('/wfl', Wfl),
            ]
     util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
