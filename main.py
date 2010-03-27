@@ -562,6 +562,8 @@ class Wfl(webapp.RequestHandler):
 class TempSite(webapp.RequestHandler):
 
     def get(self):
+        self.redirect("/google")
+        return
         template_values = {}
         html = template.render('templates/temp.html', template_values)
         self.response.out.write(html)
@@ -580,7 +582,7 @@ def main():
              ('/api/supporters', ApiSupporters),
              ('/google', Wfl),
              ('/google/', Wfl),
-             ('/wfl', Wfl),
+             ('/wfl', TempSite),
            ]
     util.run_wsgi_app(webapp.WSGIApplication(urls, debug=True))
 
