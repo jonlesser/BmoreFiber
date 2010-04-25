@@ -415,7 +415,7 @@ body {
 	position:absolute;
 	top:48%;
 	background-color:#EFEFEF;
-	z-index: 100;
+	z-index: 600;
 	height:90px;
 	width:40px;
 	cursor: pointer;
@@ -430,32 +430,31 @@ body {
 	background: #efefef url(/static/images/wfl/icon_arrow_left.png) no-repeat center center;
 	display: none;
 }
-a.advance:hover{
-    background-color:#FFF !important;
-    display: none;
+a.advance:hover {
+	background-color:#FFF !important;
+	display: none;
 }
 #site_info {
 	position:absolute;
 	right:16px;
 	bottom:16px;
 	z-index: 100;
-	color: #fff;
-    font-style: italic;
-    font-family: Arial, Helvetica, sans-serif;
-	font-size:12px;
+	color: #ccc;
+	font-style: italic;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
 	line-height: 12px;
 }
 #site_info img {
 	padding-left: 5px;
 	margin-bottom:-4px;
 }
-#site_info a{
-    color: #FFF;
+#site_info a {
+	color: #ccc;
 }
-#site_info span a:hover{
-    color:#000;
-    background-color:#FF0;
-/*    padding:3px;*/
+#site_info span a:hover {
+	color:#000;
+	background-color:#FF0;/*    padding:3px;*/
 }
 #top_nav {
 	height:34px;
@@ -467,7 +466,7 @@ a.advance:hover{
 	z-index: 100;
 	border-bottom:1px solid black;
 }
-h1, .nav_slide, #nav_map{
+h1, .nav_slide, #nav_map {
 	background-color:#EFEFEF;
 	border-right:1px solid #989898;
 	border-left: 1px solid white;
@@ -475,19 +474,6 @@ h1, .nav_slide, #nav_map{
 	height:28px;
 	float:left;
 	text-align:center;
-	
-}
-#nav_map { 
-	z-index: 500;
-	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
-	font-weight: regular;
-	font-style: italic;
-    /*width:50px;*/
-	padding-left: 15px;
-	padding-right: 15px;
-    color:#666;
-    text-decoration:none;
-    display: none;
 }
 h1 {
 	/*text-transform: uppercase;*/
@@ -496,14 +482,15 @@ h1 {
 	padding-left:15px;
 	padding-right:15px;
 	background-color:black;
-	color: #efefef;
-	font-weight:bold;
+	color: #ccc;
+	font-weight:regular;
 	font-style: italic;
-	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
+	font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Helvetica, sans-serif;
 }
-/*Google text*/
 h1 span {
-/*    text-shadow: rgb(0, 0, 0) 0px 1px 0px;*/
+	color: #FFFF00;
+	color: white;
+	font-weight:bold;
 }
 .nav_slide {
 	width:37px;
@@ -513,7 +500,19 @@ h1 span {
 	z-index: 500;
 	font-weight:bold;
 	font-style: italic;
-    display: none; 
+	display: none;
+}
+#nav_map {
+	z-index: 500;
+	font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Helvetica, sans-serif;
+	font-weight: regular;
+	font-style: italic;
+	/*width:50px;*/
+	padding-left: 15px;
+	padding-right: 15px;
+	color:#666;
+	text-decoration:none;
+	display: none;
 }
 a.nav_slide:hover, a#nav_map:hover {
 	background-color:#FFF;
@@ -525,25 +524,25 @@ a.nav_slide:hover, a#nav_map:hover {
 	font-weight: 300 !important;
 }
 #slide_thumbnail {
-    position:absolute;
-    background-color:#FFF;
-    z-index: 500;
+	position:absolute;
+	background-color:#FFF;
+	z-index: 500;
 }
-#slide_thumbnail img{
-    margin:6px 6px 0px 6px;
+#slide_thumbnail img {
+	margin:6px 6px 0px 6px;
 }
 #slide_thumbnail span {
-    position:absolute;
-    background-color:#FFF;
+	position:absolute;
+	background-color:#FFF;
 	font-size: 16px;
 	line-height: 18px;
-    bottom:18px;
-    left:18px;
-    padding: 6px 8px 3px 6px;
-    max-width:172px;
+	bottom:18px;
+	left:18px;
+	padding: 6px 8px 3px 6px;
+	max-width:172px;
 	font-weight: bold;
 	font-style: italic;
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 #slide_holder {
 	position:absolute;
@@ -553,7 +552,7 @@ a.nav_slide:hover, a#nav_map:hover {
 	display: none;
 }
 .slide {
-    background-color:#000;
+	background-color:#000;
 	overflow:hidden;
 	float:left;
 	position:relative;
@@ -587,8 +586,7 @@ a.nav_slide:hover, a#nav_map:hover {
 	font-style: italic;
 	padding:8px 20px 8px 20px;
 	clear:left;
-	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
-
+	font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Helvetica, sans-serif;
 }
 .slide_ask {
 	background-color:#FCEE21;
@@ -599,22 +597,21 @@ a.nav_slide:hover, a#nav_map:hover {
 	font-weight:bold;
 	clear:none;
 }
-a.slide_ask:hover{
-    background-color:#FFF !important;
+a.slide_ask:hover {
+	background-color:#FFF !important;
 }
-.slide_caption{
-	font-family: "proxima-nova-condensed-1","proxima-nova-condensed-2", Helvetica, sans-serif;
-    position:absolute;
-    right:18px;
-    bottom:45px;
-    background-color:#000;
-    color:#FFF;
-    padding:4px 12px 4px 12px;
-    font-weight:bold;
-    font-style: italic;
+.slide_caption {
+	font-family: "proxima-nova-condensed-1", "proxima-nova-condensed-2", Helvetica, sans-serif;
+	position:absolute;
+	right:18px;
+	bottom:45px;
+	background-color:#000;
+	color:#FFF;
+	padding:4px 12px 3px 12px;
+	font-size: 14px;
+	font-weight:regular;
+	font-style: italic;
 }
-
-
 /* LIGHTBOX STYLES */
 /* ---------------------------------------------------- */
 
@@ -623,7 +620,6 @@ a.slide_ask:hover{
 	height:auto;
 	padding: 0px;
 	margin:0 20px;
-	background-color: white;
 	color: black;
 }
 .box-head {
@@ -632,7 +628,7 @@ a.slide_ask:hover{
 	border-bottom: 1px solid #e6e6e6;
 }
 .box-head h3 {
-	padding: 20px 0px 10px 40px;
+	padding: 20px 0px 10px 0px;
 	float: left;
 	font-family: "pill-gothic-300mg-1", "pill-gothic-300mg-2", Helvetica, sans-serif;
 	font-size:48px;
@@ -652,20 +648,23 @@ a.slide_ask:hover{
 }
 .media-column {
 	width: 280px;
-	margin: 0px 20px 0px 40px;
-	padding: 30px 0;
+	margin: 0px 10px 0px 0px;
+	padding: 30px 0 0 0;
 }
 .content-column {
-	width: 379px;
-	margin: 0px 40px 0px 0px;
-	padding: 30px 0px 30px 20px;
-	border-left: 1px solid #e6e6e6;
+	width: 435px;
+	margin: 0px 0px 0px 0px;
+	padding: 30px 25px 30px 20px;
 }
-.box-container p {
+.box-container p, .box-container ul {
 	font-family: Helvetica, Arial, sans-serif;
 }
+.box-container ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
 .media-column p {
-	margin: 10px 0px 30px 0px;
+	margin: 5px 0px 30px 0px;
 	padding: 0px;
 	font-size: 12px;
 	line-height: 16px;
@@ -681,14 +680,13 @@ a.slide_ask:hover{
 	font-style: italic;
 	font-weight: bold;
 }
-
 .content-column h4 {
 	font-size: 21px;
 	margin-bottom: 0px;
 	font-style: italic;
 	font-weight: bold;
 }
-.content-column p {
+.content-column p, .content-column ul {
 	margin: 15px 0px 15px 0px;
 	padding: 0px;
 	font-size: 14px;
@@ -696,7 +694,9 @@ a.slide_ask:hover{
 }
 .content-column .intro {
 	margin: 0px 0px 15px 0px;
-	/*font-size: 16px;
+	font-style: italic;
+	font-size: 16px;
+	line-height: 24px;/*font-size: 16px;
 	line-height: 22px;
 	font-style:italic;
 	font-weight: regular;*/

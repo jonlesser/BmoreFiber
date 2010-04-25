@@ -1,7 +1,7 @@
 var g_slide_data = [
 	{
-        title: "Hubble Telescope in Baltimore",
-        deck: "Baltimore lights the path to the future of astronomy ",
+        title: "Home of the Hubble Telescope",
+        deck: "Google Fiber Can Give the World Immersive 3D Astronomy Models",
         thumbnail: {
             src: "/static/images/wfl/img_hubble_thumb.jpg",
             alt: "Hubble",
@@ -19,46 +19,8 @@ var g_slide_data = [
         ]
     },
 	{
-        title: "Open Conduit System",
-        deck: "A comprehensive city-owned conduit system offers a unique opportunity",
-        thumbnail: {
-            src: "/static/images/wfl/img_conduits_thumb.jpg",
-            alt: "Conduits",
-            width: "208",
-            height: "139"
-        },
-        content: "/static/html/conduits.html",
-        images: [
-            {
-                src: "/static/images/wfl/img_conduits_01.jpg",
-                alt: "Baltimore Public Works Museum",
-                width: "2000",
-                height: "1333"
-            }
-        ]
-    },
-	{
-        title: "Walters Manuscripts",
-        deck: "Sharing ancient writings with the world through Google fiber",
-        thumbnail: {
-            src: "/static/images/wfl/img_walters_thumb.jpg",
-            alt: "Walters",
-            width: "208",
-            height: "139"
-        },
-        content: "/static/html/walters.html",
-        images: [
-            {
-                src: "/static/images/wfl/img_walters_01.jpg",
-                alt: "Koran, 18th CE",
-                width: "2000",
-                height: "1333"
-            }
-        ]
-    },
-	{
-        title: "Telesurgery",
-        deck: "Extending surgical care through robotics",
+        title: "Leader in Telesurgery R&D",
+        deck: "Johns Hopkins Can Revolutionize Remote Robotic Surgery Using Google Fiber",
         thumbnail: {
             src: "/static/images/wfl/img_telesurgery_thumb.jpg",
             alt: "Telesurgery thumbnail",
@@ -90,46 +52,27 @@ var g_slide_data = [
         ]
     },
 	{
-        title: "Cybersecurity",
-        deck: "Leading the way to a safer world",
+        title: "Walters Manuscripts",
+        deck: "Sharing Ancient Writings with the World through Google Fiber",
         thumbnail: {
-            src: "/static/images/wfl/img_cybersecurity_thumb.jpg",
-            alt: "Cybersecurity",
+            src: "/static/images/wfl/img_walters_thumb.jpg",
+            alt: "Walters",
             width: "208",
             height: "139"
         },
-        content: "/static/html/cybersecurity.html",
+        content: "/static/html/walters.html",
         images: [
             {
-                src: "/static/images/wfl/img_cybersecurity_01.jpg",
-                alt: "Cybersecurity",
+                src: "/static/images/wfl/img_walters_01.jpg",
+                alt: "Koran, 18th CE",
                 width: "2000",
                 height: "1333"
             }
         ]
     },
 	{
-        title: "Baltimore Lightning Cloud",
-        deck: "Applications for a cloud the size of Charm City",
-        thumbnail: {
-            src: "/static/images/wfl/img_lightning_cloud_thumb.jpg",
-            alt: "cloud",
-            width: "208",
-            height: "139"
-        },
-        content: "/static/html/lightning_cloud.html",
-        images: [
-            {
-                src: "/static/images/wfl/img_lightning_cloud_01.jpg",
-                alt: "Distributed Computing Visualization",
-                width: "2000",
-                height: "1333"
-            }
-        ]
-    },
-	{
-        title: "Serious Games",
-        deck: "Immersive Learning and Interactive Simulations",
+        title: "Leader in Serious Games",
+        deck: "Baltimore's Deep Expertise in Gaming Extends to the Battlefield and Beyond",
         thumbnail: {
             src: "/static/images/wfl/img_breakaway_thumb.jpg",
             alt: "Serious Games",
@@ -140,17 +83,17 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_breakaway_01.jpg",
-                alt: "Breakaway Game: Patient in MEV",
+                alt: "Breakaway Games: Patient in MEV",
                 width: "2000",
                 height: "1333"
             }
         ]
     },
 	{
-        title: "Indie Music Hotbed",
-        deck: "Musical Collaboration at the Speed of Light",
+		title: "Indie Music Hotbed",
+        deck: "Baltimore's Musicians Need Google Fiber to Collaborate and Record Online",
         thumbnail: {
-            src: "/static/images/wfl/img_music_thumb.jpg",
+            src: "/static/images/wfl/img_music_thumb_02.jpg",
             alt: "Music",
             width: "208",
             height: "139"
@@ -158,16 +101,16 @@ var g_slide_data = [
         content: "/static/html/music.html",
         images: [
             {
-                src: "/static/images/wfl/img_music_02.jpg",
-                alt: "Ponytail",
+                src: "/static/images/wfl/img_music_04.jpg",
+                alt: "Beach House",
                 width: "2000",
                 height: "1333"
             }
         ]
     },
 	{
-        title: "Medical Imaging",
-        deck: "Improving Healthcare through Data-intensive Electronic Health Records",
+        title: "Medical Imaging Pioneers",
+        deck: "Baltimore's Doctors and Technicians Want Google Fiber for On-demand 3D Medical Imaging",
         thumbnail: {
             src: "/static/images/wfl/img_medical_images_thumb.jpg",
             alt: "Teleradiology",
@@ -185,27 +128,27 @@ var g_slide_data = [
         ]
     },
 	{
-        title: "Proximity to Washington DC",
-        deck: "There's a reason it's called the Baltimore-Washington Corridor...",
+        title: "City as Supercomputer",
+        deck: "A Computer as Big as Charm City Will Enable Scientific and Medical Discovery",
         thumbnail: {
-            src: "/static/images/wfl/img_proximity_washington_thumb.jpg",
-            alt: "Proximity to Washington",
+            src: "/static/images/wfl/img_lightning_cloud_thumb.jpg",
+            alt: "cloud",
             width: "208",
             height: "139"
         },
-        content: "/static/html/proximity_washington.html",
+        content: "/static/html/lightning_cloud.html",
         images: [
             {
-                src: "/static/images/wfl/img_proximity_washington_01.jpg",
-                alt: "Baltimore/Washington Metro",
+                src: "/static/images/wfl/img_lightning_cloud_01.jpg",
+                alt: "Distributed Computing Visualization",
                 width: "2000",
                 height: "1333"
             }
         ]
     },
 	{
-        title: "Digital Object Architecture",
-        deck: "New Ways of Archiving and Retrieving Municipal Data",
+        title: "Bob Kahn (Yes, That Bob Kahn)",
+        deck: "Bob Kahn, Father of the Internet, is Working with Baltimore to Revolutionize Municipal Data",
         thumbnail: {
             src: "/static/images/wfl/img_doa_thumb.jpg",
             alt: "Digital Object Architecture",
@@ -216,7 +159,83 @@ var g_slide_data = [
         images: [
             {
                 src: "/static/images/wfl/img_doa_01.jpg",
-                alt: "Antiquated Paper Archives",
+                alt: "Paper Archives",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Fiber-ready Conduit System",
+        deck: "Baltimore's City-owned Conduit System Offers Quick and Efficient Fiber-Optic Deployment",
+        thumbnail: {
+            src: "/static/images/wfl/img_conduits_thumb.jpg",
+            alt: "Conduits",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/conduits.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_conduits_01.jpg",
+                alt: "Baltimore Public Works Museum",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Epicenter for Cybersecurity",
+        deck: "Baltimore Will Accelerate Quantum Cryptography Development Using Google Fiber",
+        thumbnail: {
+            src: "/static/images/wfl/img_cybersecurity_thumb_02.jpg",
+            alt: "Northrop Grumman",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/cybersecurity.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_cybersecurity_02.jpg",
+                alt: "Northrop Grumman Cybersecurity Center",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Ideal Target Community",
+        deck: "Baltimore-Washington is Home to Unique Federal Assets and the Country's 4th-largest Market",
+        thumbnail: {
+            src: "/static/images/wfl/img_proximity_washington_thumb.jpg",
+            alt: "Proximity to Washington",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/proximity_washington.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_proximity_washington_01.jpg",
+                alt: "Baltimore-Washington Metropolitan Area",
+                width: "2000",
+                height: "1333"
+            }
+        ]
+    },
+	{
+        title: "Committed Leadership",
+        deck: "From City Hall to Capitol Hill, Baltimore Rolls Out the Red Carpet for Google",
+        thumbnail: {
+            src: "/static/images/wfl/img_leadership_thumb.jpg",
+            alt: "Baltimore City Hall",
+            width: "208",
+            height: "139"
+        },
+        content: "/static/html/leadership.html",
+        images: [
+            {
+                src: "/static/images/wfl/img_leadership_01.jpg",
+                alt: "Baltimore City Hall",
                 width: "2000",
                 height: "1333"
             }

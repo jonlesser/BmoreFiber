@@ -258,10 +258,21 @@ function loadImgs() {
         }
     }
 }
+
 // handle image completed event
 function onImgComplete() {
     clearTimeout(errorTimer);
     if (g_imgUrls && g_imgUrls.length && g_imgUrls[g_loaded]) {
+    	//Check to see if this an even numbered index. If so, this is a slide image and we need to replace its source with this one. -DCG
+    	if (g_loaded % 2 == 1) //Is this condition logically correct? Can there be more than a thumbnail and slide image? Could they come in any order? -DCG
+    	{	
+    		$("#slideImage"+g_preloaderIndex).attr("src",g_imgUrls[g_loaded]);
+    		$("#slideImage"+g_preloaderIndex).fadeOut(0); //There's probably a much better method to blank the element with. -DCG
+    		$("#slideImage"+g_preloaderIndex).fadeIn('slow');
+    		
+    		g_preloaderIndex++;
+    		size_slides(); //TODO: Might want to profile this to ensure it's not getting called too much. -DCG
+    	}
 
         // Show images corresponding top nav button
         // $($('a.nav_slide')[g_loaded]).fadeIn('slow'); // This line working in IE
@@ -280,8 +291,6 @@ function onImgComplete() {
     }
 }
 
-
-
 /***********************************************************************************************************************
  * We're Feeling Lucky JS
  *
@@ -290,9 +299,52 @@ function onImgComplete() {
 var g_current_slide = 1;
 var g_total_slides = g_slide_data.length;
 var g_cache = [];
+var g_preloaderIndex = 0;
+var g_preloaderImgSrc="/static/images/wfl/wfl_loader.gif";
+var g_preloaderWidth = 16; //Initialized to some arbitrary value just in case. -DCG
+var g_preloaderHeight = 16; //Initialized to some arbitrary value just in case. -DCG
 
-$(document).ready(function() {
-    preloadImages();
+function userAgentCheck(uaString,substrs,warningText)
+{
+	var supportedUA=false;
+	
+	for (var x=0; x < substrs.length; x++)
+	{
+		//IE is a special case. With IE, we want to be able to give a minimum supported version number. We do this by passing a specifically formatted string in as a member of substrs. "msie <int>" is the format. This future-proofs for later versions of IE. So here, we do a little check to see if a minimum version number is given. If so, we'll use it. If not, we'll assume the given substr is specific and use it as is. -DCG
+		if (substrs[x].substr(0,4).toLowerCase() == "msie")
+		{
+			if (uaString.toLowerCase().indexOf("msie") != -1) //We'll nest these conditionals to prevent us from having to execute these expressions if we don't have to. -DCG
+			{
+				var supportedUAArr=substrs[x].split(" ",2);
+				
+				if (supportedUAArr[1].indexOf(".") == -1 && supportedUAArr[1].indexOf("-") == -1)
+				{
+					//substrs[x] is formatted as a minimum supported version number. Let's see if the UA is at least this version. -DCG
+					
+					if (parseInt(uaString.substr(uaString.toLowerCase().indexOf("msie") + 5).split(".",1)[0]) >= supportedUAArr[1])
+					{
+						supportedUA=true;
+						break;
+					}
+				}
+			}
+		}
+		
+		if (uaString.toLowerCase().indexOf(substrs[x].toLowerCase()) != -1) //toLowerCase or not toLowerCase. That is the question. -DCG
+		{
+			supportedUA=true;
+			break;
+		}
+	}
+	
+	if (!supportedUA)
+	{
+		alert(warningText);
+	}
+}
+
+function initApp(){
+	preloadImages();
     init_slide_data(g_slide_data);
     size_slides();
     init_nav();
@@ -305,7 +357,7 @@ $(document).ready(function() {
         // If window size is less than the width of the topnav
         // shrink the width of the nav slide numbers to prevent them from dorpping to next line.
         var windowWidth = $(window).width();
-        var topNavWidth = 894; // hardcoded for time being, the typekit resizing is making things tricky
+        var topNavWidth = 960; // hardcoded for time being, the typekit resizing is making things tricky
         var navSlideWidth = 37; // these are the small slide numbers in the top nav with the hover acitons
         var slideCount = $('.nav_slide').length;
         
@@ -347,6 +399,23 @@ $(document).ready(function() {
 		'overlayOpacity' : '.7',
 		'overlayColor'   : '#000'
 	});
+}
+
+$(document).ready(function() {
+	userAgentCheck(navigator.userAgent,["chrome","firefox/","safari/","seamonkey/","msie 7"],"This presentation is not optimized to work on your browser. You may proceed but understand that the presentation may not work properly.");
+	
+	//Load preloader image and retrieve its dimensions. -DCG
+	var preloaderImg=new Image();
+	preloaderImg.src=g_preloaderImgSrc;
+	preloaderImg.onload=function(){
+		g_preloaderWidth=this.width;
+		g_preloaderHeight=this.height;
+		
+		initApp(); //Now that the preloader has loaded, we can proceed with initializing the app. -DCG
+	};
+	preloaderImg.onerror=function(){
+		initApp(); //Fail gracefully. Continue with the presentation. -DCG
+	};
 });
 
 function advance_slide(index){
@@ -375,6 +444,8 @@ function advance_slide(index){
         $("#slide_holder").css("left", left_pos);
     });
     
+    //$(".slideImage").attr("src",g_slide_data[index-1].images[0].src);
+    
     // Set location hash for easy bookmarking and link sharing (not working well)
     // location.hash = index > 1 ? index : "";
     
@@ -389,12 +460,14 @@ function advance_slide(index){
     g_current_slide = parseInt(index);
     
     // Fade the slide holder back in.
-    // If first slide, page loading up, fade in slow for dramatic effect.
+    /*// If first slide, page loading up, fade in slow for dramatic effect.
     if(slidesLoaded === 1){
-        $("#slide_holder").fadeIn(4000);        
+        $("#slide_holder").fadeIn(4000);
     } else {
         $("#slide_holder").fadeIn('slow');        
-    }
+    }*/
+    
+    $("#slide_holder").fadeIn('slow'); //I didn't delete the conditional above just to show that this is a style concern that may or may not revert back to the way it was. -DCG
 }
 
 function init_advance_controls(){
@@ -456,7 +529,7 @@ function init_slide_data(slides){
         
         for (var j=0; j < slides[i].images.length; j++) {
             var img = slides[i].images[j];
-            slide_html += "<img src='" + img.src + "' width='" + img.width + "' height='" + img.height + "' alt='" + img.alt + "'/>";
+            slide_html += "<img id='slideImage"+i+"' src='"+g_preloaderImgSrc+"' width='" + img.width + "' height='" + img.height + "' alt='" + img.alt + "'/>";
             slide_html += "<div class='slide_caption'>" + img.alt + "</div>";
         };
         
@@ -503,12 +576,48 @@ function size_slides(){
         // but if the height of the image becomes smaller than the height of the viewport
         // we will have an empty black strip at the bottom. To prevent this, if the height of the image
         // is smaller than the height of the viewport, vertically scale image to fit snug in viewport.
-        var aspectRatio = this.naturalWidth / this.naturalHeight;
-        $(this).width(winwidth);
-
-        var newHeight = winwidth / aspectRatio;
-        newHeight = (newHeight > winheight)? newHeight : winheight;
-        $(this).height(newHeight);
+    	
+    	if ($(this).attr("src") == g_preloaderImgSrc)
+    	{
+    		//This is a preloader image. Size and center it in the viewport. -DCG
+    		
+    		var imgAspectRatio = g_preloaderWidth/g_preloaderHeight;
+    		
+    		if (g_preloaderHeight > winheight)
+    		{
+    			g_preloaderHeight = winheight;
+    			g_preloaderWidth = parseInt(g_preloaderHeight * imgAspectRatio);
+    			
+    			if (g_preloaderWidth < 1){g_preloaderWidth = 1;} //If the preloader is crazy tall, this dimension could shrink to below 1px. In that case, we'll set it to 1px. -DCG
+    		}
+    		
+    		if (g_preloaderWidth > winwidth)
+    		{
+    			g_preloaderWidth = winwidth;
+    			g_preloaderHeight = parseInt(imgAspectRatio / g_preloaderWidth);
+    			
+    			if (g_preloaderHeight < 1){g_preloaderHeight = 1;} //If the preloader is crazy wide, this dimension could shrink to below 1px. In that case, we'll set it to 1px. -DCG
+    		}
+    		
+    		$(this).width(g_preloaderWidth);
+    		$(this).height(g_preloaderHeight);
+    		$(this).css("position","relative");
+    		$(this).css("top",parseInt((winheight-g_preloaderHeight)/2));
+    		$(this).css("left",parseInt((winwidth-g_preloaderWidth)/2));
+    	}
+    	else
+    	{
+    		//Reset image position in case the preloader position has been set. -DCG
+    		$(this).css("top",0);
+    		$(this).css("left",0);
+    		
+	        var aspectRatio = this.naturalWidth / this.naturalHeight;
+	        $(this).width(winwidth);
+	
+	        var newHeight = winwidth / aspectRatio;
+	        newHeight = (newHeight > winheight)? newHeight : winheight;
+	        $(this).height(newHeight);
+    	}
     });
 }
 

@@ -26,8 +26,8 @@ a img {border:none;}
 html {font-size:100.01%;}
 body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;}
 h1, h2, h3, h4, h5, h6 {font-weight:normal;color:#111;}
-h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
-h2 {font-size:2em;margin-bottom:0.75em;}
+h1 {font-size:2.75em;line-height:1;margin-bottom:0.75em;}
+h2 {font-size:3em;margin-bottom:0.75em;}
 h3 {font-size:1.5em;line-height:1;margin-bottom:1em;}
 h4 {font-size:1.2em;line-height:1.25;margin-bottom:1.25em;}
 h5 {font-size:1em;font-weight:bold;margin-bottom:1.5em;}
@@ -262,6 +262,8 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 Hacky BmoreFiber CSS
 */
 h1 {font-weight:bold;}
+h2 {font-weight: bold; font-size: 58px !important; line-height: 72px; margin-bottom: 0; margin-top: 0; padding-top: 0;}
+.intro-text {font-size:1.5em;margin-bottom:0.75em; margin-top: 0;}
 label.inputError { color:red; font-weight:normal; }
 input.inputError {border: 2px solid red; background:#FBE3E4;}
 input[type="text"], input[type="password"], input.text, input.title, textarea, select {
@@ -273,6 +275,7 @@ input[type="text"], input[type="password"], input.text, input.title, textarea, s
 button {cursor: pointer; border-width: 5px !important;}
 #add_voice_dialog, #add_org_dialog, #success_dialog {display:none;}
 #add_voice_button, #add_org_button, #youtube_direct_button { font-size:18px; }
+#letter {padding-bottom: 50px;}
 
 /* Maps */
 .infowindow h3{ margin-bottom:0;}
@@ -322,8 +325,8 @@ button {cursor: pointer; border-width: 5px !important;}
 }
 
 /* Big header and regular footer */
-#header {margin-top:20px;}
-#header h1 {font-size:100px; font-weight:bold; margin-bottom:30px;}
+#header {margin-top:20px; margin-bottom: 40px; text-align: center;}
+#header h1 {font-size:85px; font-weight:bold; margin-bottom:30px; !important}
 #footer {color:#888; padding:20px 0 10px 0; clear:both;}
 #footer a {color:#888;}
 
