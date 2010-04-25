@@ -412,6 +412,7 @@ $(document).ready(function() {
 		g_preloaderHeight=this.height;
 		
 		initApp(); //Now that the preloader has loaded, we can proceed with initializing the app. -DCG
+		preloaderImg.onload = "";
 	};
 	preloaderImg.onerror=function(){
 		initApp(); //Fail gracefully. Continue with the presentation. -DCG
